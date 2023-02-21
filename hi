@@ -1,0 +1,7 @@
+import zbar
+from zbar import zbar
+import pyzbar
+from pyzbar import pyzbar
+
+
+print("Hello World!")
