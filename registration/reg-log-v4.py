@@ -12,15 +12,187 @@ flag = False
 mail = str()
 password = str()
 
+def reg():
+    window.destroy()
+
+    global window_reg1
+    window_reg1 = Tk()
+    window_reg1.title("Регистрация")
+
+    # Все надписи
+    lbl_mail = Label(window_reg1, text="Почта")
+    lbl_pass1 = Label(window_reg1, text="Пароль")
+    lbl_pass2 = Label(window_reg1, text="Подтвердите Пароль")
+    lbl_cap = Label(window_reg1, text="Введите капчу")
+    lbl_mail.grid(column=0, row=0)
+    lbl_pass1.grid(column=0, row=20)
+    lbl_pass2.grid(column=0, row=40)
+    lbl_cap.grid(column=0, row=60)
+
+    # Все поля для ввода
+    global txt_mail
+    txt_mail = Entry(window_reg1, width=40)
+    txt_mail.grid(column=1, row=0)
+    global txt_pass1
+    txt_pass1 = Entry(window_reg1, width=40)
+    txt_pass1.grid(column=1, row=20)
+    global txt_pass2
+    txt_pass2 = Entry(window_reg1, width=40)
+    txt_pass2.grid(column=1, row=40)
+    global txt_captcha
+    txt_captcha = Entry(window_reg1, width=40)
+    txt_captcha.grid(column=1, row=60)
+
+    # Создание капчи
+    global captcha_text
+    with open("for_captcha.txt", "r") as file:
+        allText = file.read()
+        words = list(map(str, allText.split()))
+        captcha_text = random.choice(words)
+
+    image = ImageCaptcha(width=280, height=90)
+    image.write(captcha_text, 'CAPTCHA.jpg')
+    canvas = tkinter.Canvas(window_reg1, height=100, width=700)
+    path = "CAPTCHA.jpg"
+    img = ImageTk.PhotoImage(Image.open(path))
+    result = canvas.create_image(0, 0, anchor='nw', image=img)
+    canvas.grid(row=100, column=100)
+
+    # Кнопка
+    btn = Button(window_reg1, text="Зарегистрироваться", command=attemption_to_reg)
+    btn.grid(column=1, row=80)
+
+    window_reg1.mainloop()
+
+    if flag:  # Проверяем, что первый этап регистрации пройден успешно
+        global window_reg2
+        window_reg2 = Tk()
+        window_reg2.title("Регистрация")
+        window_reg2.geometry('1000x500')
+        lbl_name = Label(window_reg2, text="Имя")
+        lbl_sec_name = Label(window_reg2, text="Фамилия")
+        lbl_date = Label(window_reg2, text="Дата рождения")
+        lbl_name.grid(column=0, row=0)
+        lbl_sec_name.grid(column=0, row=20)
+        lbl_date.grid(column=0, row=40)
+        global txt_name
+        txt_name = Entry(window_reg2, width=40)
+        txt_name.grid(column=1, row=0)
+        global txt_sec_name
+        txt_sec_name = Entry(window_reg2, width=40)
+        txt_sec_name.grid(column=1, row=20)
+
+        # кнопка
+        btn2 = Button(window_reg2, text="Подтвердить", command=attemption_to_reg2)
+        btn2.grid(column=1, row=120)
+
+        # Списки с числами для даты
+        day = ['1', '2', '3']
+        days = [str(i + 1) for i in range(31)]
+        months = [str(i + 1) for i in range(12)]
+        years = [str(i + 1) for i in range(2024, 1950, -1)]
+
+        # Выбор даты рождения
+        global combobox1
+        combobox1 = ttk.Combobox(values=days)
+        combobox1.grid(column=1, row=40)
+        global combobox2
+        combobox2 = ttk.Combobox(values=months)
+        combobox2.grid(column=2, row=40)
+        global combobox3
+        combobox3 = ttk.Combobox(values=years)
+        combobox3.grid(column=3, row=40)
+
+        window_reg2.mainloop()
+
+        global window_reg3
+        window_reg3 = Tk()
+        window_reg3.title("Регистрация")
+        window_reg3.geometry('1000x500')
+
+        global txt_link_face
+        txt_link_face = Entry(window_reg2, width=40)
+        txt_link_face.grid(column=1, row=20)
+
+        # кнопка
+        btn2 = Button(window_reg2, text="Подтвердить", command=attemption_to_reg3)
+        btn2.grid(column=1, row=120)
+
+        window_reg3.mainloop()
+
+def log():
+    window.destroy()
+
+    global window_log
+    window_log = Tk()
+    window_log.title("Ввойти в аккаунт")
+
+    # Все надписи
+    lbl_mail = Label(window_log, text="Почта")
+    lbl_pass1 = Label(window_log, text="Пароль")
+    lbl_cap = Label(window_log, text="Введите капчу")
+    lbl_mail.grid(column=0, row=0)
+    lbl_pass1.grid(column=0, row=20)
+    lbl_cap.grid(column=0, row=60)
+
+    # Все поля для ввода
+    global txt_mail_log
+    txt_mail_log = Entry(window_log, width=40)
+    txt_mail_log.grid(column=1, row=0)
+    global txt_pass1_log
+    txt_pass1_log = Entry(window_log, width=40)
+    txt_pass1_log.grid(column=1, row=20)
+    global txt_captcha_log
+    txt_captcha_log = Entry(window_log, width=40)
+    txt_captcha_log.grid(column=1, row=40)
+
+    # Создание капчи
+    global captcha_text_log
+    with open("for_captcha.txt", "r") as file:
+        allText = file.read()
+        words = list(map(str, allText.split()))
+        captcha_text_log = random.choice(words)
+
+    image = ImageCaptcha(width=280, height=90)
+    image.write(captcha_text_log, 'CAPTCHA.jpg')
+    canvas = tkinter.Canvas(window_log, height=100, width=700)
+    path = "CAPTCHA.jpg"
+    img = ImageTk.PhotoImage(Image.open(path))
+    result = canvas.create_image(0, 0, anchor='nw', image=img)
+    canvas.grid(row=100, column=100)
+
+    # Кнопка
+    btn = Button(window_log, text="Ввойти в аккаунт", command=attemption_to_log)
+    btn.grid(column=1, row=80)
+
+    window_log.mainloop()
 
 def attemption_to_log():
-    pass
-    
+    mail = txt_mail.get()
+    password = txt_pass1.get()
+    captcha = txt_captcha.get()
+    try:
+        validation = validate_email(mail, check_deliverability=True)
+    except EmailNotValidError as e:
+        messagebox.showinfo('Attention', 'Email is incorrect')
+        return
+    res = cur.execute("SELECT Email FROM users WHERE Email = {mail}")
+    if res.fetchall() is []:
+        messagebox.showinfo('Attention', 'Email is incorrect')
+        return
+    res = cur.execute("SELECT Password FROM users WHERE Email = {mail_log}")
+    true_password = res.fetchone()[0]
+    if password != true_password:
+        messagebox.showinfo('Attention', 'Password is incorrect')
+    elif captcha != captcha_text:
+        messagebox.showinfo('Attention', 'Captcha is incorrect')
+    else:
+        global flag
+        flag = True
+        window_reg1.destroy()
 
 def attemption_to_reg():
-    global mail
     mail = txt_mail.get()
-    global password
     password = txt_pass1.get()
     double_check = txt_pass2.get()
     captcha = txt_captcha.get()
@@ -48,7 +220,7 @@ def attemption_to_reg():
     else:
         global flag
         flag = True
-        window.destroy()
+        window_reg1.destroy()
 
 
 def attemption_to_reg2():
@@ -62,12 +234,13 @@ def attemption_to_reg2():
         data['name'] = name
         data['surname'] = surname
         data['dob'] = dob
-        messagebox.showinfo('sheeeeesh', 'вы успешно балдежнули')
-        window2.destroy()
+        window_reg2.destroy()
 
-def attemption_to_reg2():
-    # добавление фото (Киря)
-    pass
+def attemption_to_reg3():
+    link = txt_link_face.get()
+    data['face'] = link
+    messagebox.showinfo('sheeeeesh', 'вы успешно балдежнули')
+    window_reg3.destroy()
 
 def data_to_DB():
     res = cur.execute("SELECT ID FROM users ORDER BY ID DESC LIMIT 1")
@@ -84,99 +257,28 @@ def data_to_DB():
         cur.execute(query)
 
 
-
-# Окно
-window = Tk()
-window.title("Регистрация")
-window.geometry('1000x500')
-
 # DB
 con = sql.connect('second.db')
 cur = con.cursor()
 global data
 data = {'name': '', 'surname': '', 'email': '', 'pass': '', 'dob': '', 'face': ''}
 
+# Окно
+window = Tk()
+window.geometry('1000x500')
+
 # Регестраци или капча
-btn = Button(window, text="Регестрация", command=attemption_to_reg)
-btn.grid(column=1, row=80)
-btn1 = Button(window, text="Войти в аккаунт", command=attemption_to_log)
-btn1.grid(column=1, row=80)
+btn = Button(window, text="Регистрация", command=reg)
+btn.grid(column=1, row=0)
+btn1 = Button(window, text="Войти в аккаунт", command=log)
+btn1.grid(column=1, row=40)
 
 window.mainloop()
 
-# Все надписи
-lbl_mail = Label(window, text="Почта")
-lbl_pass1 = Label(window, text="Пароль")
-lbl_pass2 = Label(window, text="Подтвердите Пароль")
-lbl_cap = Label(window, text="Введите капчу")
-lbl_mail.grid(column=0, row=0)
-lbl_pass1.grid(column=0, row=20)
-lbl_pass2.grid(column=0, row=40)
-lbl_cap.grid(column=0, row=60)
 
-# Все поля для ввода
-txt_mail = Entry(window, width=40)
-txt_mail.grid(column=1, row=0)
-txt_pass1 = Entry(window, width=40)
-txt_pass1.grid(column=1, row=20)
-txt_pass2 = Entry(window, width=40)
-txt_pass2.grid(column=1, row=40)
-txt_captcha = Entry(window, width=40)
-txt_captcha.grid(column=1, row=60)
 
-# Создание капчи
-with open("for_captcha.txt", "r") as file:
-    allText = file.read()
-    words = list(map(str, allText.split()))
-    captcha_text = random.choice(words)
+# close DB
+con.commit()
+con.close()
 
-image = ImageCaptcha(width=280, height=90)
-image.write(captcha_text, 'CAPTCHA.jpg')
-canvas = tkinter.Canvas(window, height=100, width=700)
-path = "CAPTCHA.jpg"
-img = ImageTk.PhotoImage(Image.open(path))
-result = canvas.create_image(0, 0, anchor='nw', image=img)
-canvas.grid(row=100, column=100)
-
-# Кнопка
-btn = Button(window, text="Зарегистрироваться", command=attemption_to_reg)
-btn.grid(column=1, row=80)
-
-window.mainloop()
-
-if flag:  # Проверяем, что первый этап регистрации пройден успешно
-    window2 = Tk()
-    window2.title("Регистрация")
-    window2.geometry('1000x500')
-    lbl_name = Label(window2, text="Имя")
-    lbl_sec_name = Label(window2, text="Фамилия")
-    lbl_date = Label(window2, text="Дата рождения")
-    lbl_name.grid(column=0, row=0)
-    lbl_sec_name.grid(column=0, row=20)
-    lbl_date.grid(column=0, row=40)
-    txt_name = Entry(window2, width=40)
-    txt_name.grid(column=1, row=0)
-    txt_sec_name = Entry(window2, width=40)
-    txt_sec_name.grid(column=1, row=20)
-    btn2 = Button(window2, text="Подтвердить", command=attemption_to_reg2)
-    btn2.grid(column=1, row=120)
-
-    # Списки с числами для даты
-    day = ['1', '2', '3']
-    days = [str(i + 1) for i in range(31)]
-    months = [str(i + 1) for i in range(12)]
-    years = [str(i + 1) for i in range(2024, 1950, -1)]
-
-    # Выбор даты рождения
-    combobox1 = ttk.Combobox(values=days)
-    combobox1.grid(column=1, row=40)
-    combobox2 = ttk.Combobox(values=months)
-    combobox2.grid(column=2, row=40)
-    combobox3 = ttk.Combobox(values=years)
-    combobox3.grid(column=3, row=40)
-
-    window2.mainloop()
-
-    # close DB
-    con.commit()
-    con.close()
+# 182 214
