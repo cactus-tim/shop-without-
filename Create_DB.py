@@ -1,6 +1,6 @@
 import sqlite3 as sql
 
-con = sql.connect('second.db')
+con = sql.connect('third.db')
 cur = con.cursor()
 
 with con:
