@@ -47,7 +47,7 @@ while(cap.isOpened()):
 
         res = cur.execute("SELECT ID FROM sales02 ORDER BY ID DESC LIMIT 1")
         prev_prod_id = res.fetchall()
-        if prev_prod_id is not []: #если не первая запись в бд
+        if prev_prod_id: #если не первая запись в бд
             res = cur.execute("SELECT ID FROM sales02 ORDER BY ID DESC LIMIT 1")
             prev_prod_id = res.fetchone()[0]
             if prev_prod_id != barCode:
