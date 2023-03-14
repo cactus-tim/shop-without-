@@ -176,11 +176,13 @@ def attemption_to_log():
     except EmailNotValidError as e:
         messagebox.showinfo('Attention', 'Email is incorrect')
         return
-    res = cur.execute("SELECT Email FROM users WHERE Email = {mail}")
+    query = f"SELECT Email FROM users WHERE Email = {mail}"
+    res = cur.execute(query)
     if res.fetchall() is []:
         messagebox.showinfo('Attention', 'Email is incorrect')
         return
-    res = cur.execute("SELECT Password FROM users WHERE Email = {mail_log}")
+    query = f"SELECT Password FROM users WHERE Email = {mail}"
+    res = cur.execute(query)
     true_password = res.fetchone()[0]
     if password != true_password:
         messagebox.showinfo('Attention', 'Password is incorrect')
@@ -201,13 +203,14 @@ def attemption_to_reg():
     except EmailNotValidError as e:
         messagebox.showinfo('Attention', 'Email is incorrect')
         return
-    res = cur.execute("SELECT Email FROM users WHERE Email = {mail}")
+    query = f"SELECT Email FROM users WHERE Email = {mail}"
+    res = cur.execute(query)
     if res.fetchall() is []:
         data['email'] = mail
         data['pass'] = password
     else:
         # Дополнительная проверка, по идее можно и без нее
-        res = cur.execute("SELECT Email FROM users WHERE Email = {mail}")
+        res = cur.execute(query)
         if res.fetchone()[0] == mail:
             messagebox.showinfo('Attention', 'Email is already registered')
             return
@@ -245,15 +248,14 @@ def attemption_to_reg3():
 def data_to_DB():
     res = cur.execute("SELECT ID FROM users ORDER BY ID DESC LIMIT 1")
     prev_user_id = res.fetchall()
+    user_id = 1
+    query = f"INSERT INTO users VALUES ('{user_id}', '{data['name']}', '{data['surname']}', '{data['email']}', '{data['pass']}', '{data['dob']}', '{data['face']}', {0})"
     if prev_user_id is not []: # check first user
         res = cur.execute("SELECT ID FROM users ORDER BY ID DESC LIMIT 1")
         prev_user_id = res.fetchone()[0]
-        user_id = prev_user_id + 1
-        query = f"INSERT INTO users VALUES ('{user_id}', '{data['name']}', '{data['surname']}', '{data['email']}', '{data['pass']}', '{data['dob']}', '{data['face']}', {0})"
+        user_id += prev_user_id
         cur.execute(query)
     else:
-        user_id = 1
-        query = f"INSERT INTO users VALUES ('{user_id}', '{data['name']}', '{data['surname']}', '{data['email']}', '{data['pass']}', '{data['dob']}', '{data['face']}', {0})"
         cur.execute(query)
 
 
