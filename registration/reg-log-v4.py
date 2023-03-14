@@ -13,8 +13,8 @@ mail = str()
 password = str()
 
 
-def reg_or_log():
-    global cond
+def attemption_to_log():
+    pass
     
 
 def attemption_to_reg():
@@ -95,6 +95,14 @@ con = sql.connect('second.db')
 cur = con.cursor()
 global data
 data = {'name': '', 'surname': '', 'email': '', 'pass': '', 'dob': '', 'face': ''}
+
+# Регестраци или капча
+btn = Button(window, text="Регестрация", command=attemption_to_reg)
+btn.grid(column=1, row=80)
+btn1 = Button(window, text="Войти в аккаунт", command=attemption_to_log)
+btn1.grid(column=1, row=80)
+
+window.mainloop()
 
 # Все надписи
 lbl_mail = Label(window, text="Почта")
