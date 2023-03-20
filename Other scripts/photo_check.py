@@ -1,9 +1,7 @@
 import yadisk
 import sys
 
-client_id = "9ccafedf10664913b01666dbceb950b1"
-secret_id = "7b6ef408e8f445ad9aa387858e1bce1d"
-token = "y0_AgAAAABpZNC7AAlO3QAAAADe_r4Fm6rN4uA7SwqmSG4P_ptrMQGnls4"
+#Здесь должен быть токен Яндекса, но его я не покажу)))))
 
 disk = yadisk.YaDisk(client_id, secret_id, token)
 
