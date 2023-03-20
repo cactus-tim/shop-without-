@@ -40,8 +40,6 @@ if disk.check_token():
             print("Upload succesful:", link)
         else:
             print("Upload failed. Try later.")
-
-
 else:
     print("Error: Token is uncorrect")
     sys.exit(0)

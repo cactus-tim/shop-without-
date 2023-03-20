@@ -7,10 +7,13 @@ from PIL import ImageTk, Image
 from tkinter import ttk
 import sqlite3 as sql
 import random
+import yadisk
+import sys
 
 flag = False
 mail = str()
 password = str()
+
 
 def reg():
     window.destroy()
@@ -116,7 +119,7 @@ def reg():
         window_reg3.title("Регистрация")
         window_reg3.geometry('1000x500')
 
-        lbl_link = Label(window_reg3, text="Ссылка на вашу фотографию")
+        lbl_link = Label(window_reg3, text="Путь к вашей фотографии")
         lbl_link.grid(column=0, row=0)
         global txt_link_face
         txt_link_face = Entry(window_reg3, width=40)
@@ -127,6 +130,7 @@ def reg():
         btn.grid(column=1, row=120)
 
         window_reg3.mainloop()
+
 
 def log():
     window.destroy()
@@ -175,6 +179,7 @@ def log():
 
     window_log.mainloop()
 
+
 def attemption_to_log():
     mail = txt_mail_log.get()
     password = txt_pass_log.get()
@@ -199,6 +204,7 @@ def attemption_to_log():
     else:
         messagebox.showinfo('sheeeeesh', 'вы успешно балдежнули')
         window_log.destroy()
+
 
 def attemption_to_reg():
     mail = txt_mail.get()
@@ -246,45 +252,82 @@ def attemption_to_reg2():
         data['dob'] = dob
         window_reg2.destroy()
 
+
 def attemption_to_reg3():
-    link = txt_link_face.get()
+    path = txt_link_face.get()
+    query = "SELECT ID FROM users ORDER BY ID DESC LIMIT 1"
+    res = cur.execute(query)
+    user_id = 1
+    if res.fetchall():  # check first user
+        res = cur.execute(query)
+        prev_user_id = res.fetchone()[0]
+        user_id += prev_user_id
+    data['id'] = user_id
+    link = photo_upload(data['email'], path, data['id'])
     data['face'] = link
-    messagebox.showinfo('sheeeeesh', 'вы успешно балдежнули')
     data_to_DB()
     window_reg3.destroy()
 
+
 def data_to_DB():
-    res = cur.execute("SELECT ID FROM users ORDER BY ID DESC LIMIT 1")
-    user_id = 1
-    query = f"INSERT INTO users VALUES ('{user_id}', '{data['name']}', '{data['surname']}', '{data['email']}', '{data['pass']}', '{data['dob']}', '{data['face']}', {0})"
-    if not res.fetchall(): # check first user
-        cur.execute(query)
-    else:
-        res = cur.execute("SELECT ID FROM users ORDER BY ID DESC LIMIT 1")
-        prev_user_id = res.fetchone()[0]
-        user_id += prev_user_id
-        cur.execute(query)
+    query = f"INSERT INTO users VALUES ('{data['id']}', '{data['name']}', '{data['surname']}', '{data['email']}', '{data['pass']}', '{data['dob']}', '{data['face']}', {0})"
+    cur.execute(query)
     con.commit()
+
+
+def try_upload(path, filename, flag_photo):
+    for i in range(1, 101):
+        try:
+            disk.upload(path, filename)
+            if disk.exists(filename):
+                flag_photo = True
+        except Exception as ex:
+            print(ex)
+        if flag_photo:
+            break
+
+
+def photo_upload(email, path, user_id):
+    link = ''
+    if disk.check_token():
+        filename = '/' + user_id + '_' + email
+        try_upload(path, filename, flag_photo=False)
+        if flag:
+            link = disk.get_download_link(filename)
+            print("Upload succesful:", link)
+            messagebox.showinfo('sheeeeesh', 'вы успешно балдежнули')
+        else:
+            print("Upload failed. Try later.")
+            messagebox.showinfo('Failed', 'Upload failed. Try later.')
+    else:
+        print("Error: Token is uncorrect")
+        messagebox.showinfo('Failed', 'Upload failed. Try later.')
+        sys.exit(0)
+    return link
 
 
 # DB
 con = sql.connect('second.db')
 cur = con.cursor()
-data = {'name': '', 'surname': '', 'email': '', 'pass': '', 'dob': '', 'face': ''}
+data = {'id': int, 'name': '', 'surname': '', 'email': '', 'pass': '', 'dob': '', 'face': ''}
+
+# YaDisk
+client_id = "9ccafedf10664913b01666dbceb950b1"
+secret_id = "7b6ef408e8f445ad9aa387858e1bce1d"
+token = "y0_AgAAAABpZNC7AAlO3QAAAADe_r4Fm6rN4uA7SwqmSG4P_ptrMQGnls4"
+disk = yadisk.YaDisk(client_id, secret_id, token)
 
 # Окно
 window = Tk()
 window.geometry('1000x500')
 
-# Регестраци или капча
+# Регестрация или капча
 btn = Button(window, text="Регистрация", command=reg)
 btn.grid(column=1, row=0)
 btn1 = Button(window, text="Войти в аккаунт", command=log)
 btn1.grid(column=1, row=40)
 
 window.mainloop()
-
-
 
 # close DB
 con.close()
