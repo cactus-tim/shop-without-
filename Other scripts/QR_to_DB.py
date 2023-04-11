@@ -1,3 +1,10 @@
+from __future__ import print_function
+import pyzbar.pyzbar as pyzbar
+import numpy as np
+import cv2
+import time
+import sqlite3 as sql
+
 def camera_work(cap, con, cur):
     font = cv2.FONT_HERSHEY_SIMPLEX
     while (cap.isOpened()):
@@ -68,14 +75,6 @@ def activate_camera():
 
 
 if __name__ == '__main__':
-    from __future__ import print_function
-
-    import pyzbar.pyzbar as pyzbar
-    import numpy as np
-    import cv2
-    import time
-    import sqlite3 as sql
-
     activate_camera()
 
 # TODO: придумать как сделать выход из программы и закрыть камеру
