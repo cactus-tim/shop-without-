@@ -38,6 +38,7 @@ def photo_to_cloud():
             if try_upload(disk, path, filename):
                 link = disk.get_download_link(filename)
                 print("Upload succesful:", link)
+                print(link)
             else:
                 print("Upload failed. Try later.")
     else:

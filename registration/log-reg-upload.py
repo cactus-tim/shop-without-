@@ -1,3 +1,15 @@
+import tkinter
+from tkinter import *
+from tkinter import messagebox
+from email_validator import validate_email, EmailNotValidError
+from captcha.image import ImageCaptcha
+from PIL import ImageTk, Image
+from tkinter import ttk
+import sqlite3 as sql
+import random
+import yadisk
+import sys
+
 def reg():
     window.destroy()
 
@@ -290,24 +302,12 @@ def photo_upload(email, path, user_id):
 
 
 if __name__ == '__main__':
-    import tkinter
-    from tkinter import *
-    from tkinter import messagebox
-    from email_validator import validate_email, EmailNotValidError
-    from captcha.image import ImageCaptcha
-    from PIL import ImageTk, Image
-    from tkinter import ttk
-    import sqlite3 as sql
-    import random
-    import yadisk
-    import sys
-
     flag = False
     mail = str()
     password = str()
 
     # DB
-    con = sql.connect('second.db')
+    con = sql.connect('../../third.db')
     cur = con.cursor()
     data = {'id': int, 'name': '', 'surname': '', 'email': '', 'pass': '', 'dob': '', 'face': ''}
 
