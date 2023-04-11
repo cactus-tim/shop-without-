@@ -1,3 +1,6 @@
+import yadisk
+import sys
+
 def try_upload(disk, path, filename):
     flag = False
     for i in range(1, 101):
@@ -43,7 +46,4 @@ def photo_to_cloud():
 
 
 if __name__ == '__main__':
-    import yadisk
-    import sys
-
     photo_to_cloud()
