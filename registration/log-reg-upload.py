@@ -1,20 +1,3 @@
-import tkinter
-from tkinter import *
-from tkinter import messagebox
-from email_validator import validate_email, EmailNotValidError
-from captcha.image import ImageCaptcha
-from PIL import ImageTk, Image
-from tkinter import ttk
-import sqlite3 as sql
-import random
-import yadisk
-import sys
-
-flag = False
-mail = str()
-password = str()
-
-
 def reg():
     window.destroy()
 
@@ -181,23 +164,23 @@ def log():
 
 
 def attemption_to_log():
-    mail = txt_mail_log.get()
-    password = txt_pass_log.get()
+    mail_ = txt_mail_log.get()
+    password_ = txt_pass_log.get()
     captcha = txt_captcha_log.get()
     # try:
-    #     validation = validate_email(mail, check_deliverability=True)
+    #     validation = validate_email(mail_, check_deliverability=True)
     # except EmailNotValidError as e:
     #     messagebox.showinfo('Attention', 'Email is incorrect')
     #     return
-    query = f"SELECT Email FROM users WHERE Email = '{mail}'"
+    query = f"SELECT Email FROM users WHERE Email = '{mail_}'"
     res = cur.execute(query)
     if not res.fetchall():
         messagebox.showinfo('Attention', 'Email is incorrect')
         return
-    query = f"SELECT Password FROM users WHERE Email = '{mail}'"
+    query = f"SELECT Password FROM users WHERE Email = '{mail_}'"
     res = cur.execute(query)
     true_password = res.fetchone()[0]
-    if password != str(true_password):
+    if password_ != str(true_password):
         messagebox.showinfo('Attention', 'Password is incorrect')
     elif captcha != captcha_text_log:
         messagebox.showinfo('Attention', 'Captcha is incorrect')
@@ -207,29 +190,29 @@ def attemption_to_log():
 
 
 def attemption_to_reg():
-    mail = txt_mail.get()
-    password = txt_pass1.get()
+    mail_ = txt_mail.get()
+    password_ = txt_pass1.get()
     double_check = txt_pass2.get()
     captcha = txt_captcha.get()
     # try:
-    #     validation = validate_email(mail, check_deliverability=True)
+    #     validation = validate_email(mail_, check_deliverability=True)
     # except EmailNotValidError as e:
     #     messagebox.showinfo('Attention', 'Email is incorrect')
     #     return
-    query = f"SELECT Email FROM users WHERE Email = '{mail}'"
+    query = f"SELECT Email FROM users WHERE Email = '{mail_}'"
     res = cur.execute(query)
     if not res.fetchall():
-        data['email'] = mail
-        data['pass'] = password
+        data['email'] = mail_
+        data['pass'] = password_
     else:
         # Дополнительная проверка, по идее можно и без нее
         res = cur.execute(query)
-        if res.fetchone()[0] == mail:
+        if res.fetchone()[0] == mail_:
             messagebox.showinfo('Attention', 'Email is already registered')
             return
-    if password != double_check:
+    if password_ != double_check:
         messagebox.showinfo('Attention', 'Passwords are not equal')
-    elif len(password) < 8:
+    elif len(password_) < 8:
         messagebox.showinfo('Attention', 'Password must contain at least 8 characters')
     elif captcha != captcha_text:
         messagebox.showinfo('Attention', 'Captcha is incorrect')
@@ -281,18 +264,18 @@ def try_upload(path, filename, flag_photo):
             disk.upload(path, filename)
             if disk.exists(filename):
                 flag_photo = True
+                return True
         except Exception as ex:
             print(ex)
         if flag_photo:
-            break
+            return True
 
 
 def photo_upload(email, path, user_id):
     link = ''
     if disk.check_token():
         filename = '/' + user_id + '_' + email
-        try_upload(path, filename, flag_photo=False)
-        if flag:
+        if try_upload(path, filename, flag_photo=False):
             link = disk.get_download_link(filename)
             print("Upload succesful:", link)
             messagebox.showinfo('sheeeeesh', 'вы успешно балдежнули')
@@ -306,30 +289,47 @@ def photo_upload(email, path, user_id):
     return link
 
 
-# DB
-con = sql.connect('second.db')
-cur = con.cursor()
-data = {'id': int, 'name': '', 'surname': '', 'email': '', 'pass': '', 'dob': '', 'face': ''}
+if __name__ == '__main__':
+    import tkinter
+    from tkinter import *
+    from tkinter import messagebox
+    from email_validator import validate_email, EmailNotValidError
+    from captcha.image import ImageCaptcha
+    from PIL import ImageTk, Image
+    from tkinter import ttk
+    import sqlite3 as sql
+    import random
+    import yadisk
+    import sys
 
-# YaDisk
-client_id = "9ccafedf10664913b01666dbceb950b1"
-secret_id = "7b6ef408e8f445ad9aa387858e1bce1d"
-token = "y0_AgAAAABpZNC7AAlO3QAAAADe_r4Fm6rN4uA7SwqmSG4P_ptrMQGnls4"
-disk = yadisk.YaDisk(client_id, secret_id, token)
+    flag = False
+    mail = str()
+    password = str()
 
-# Окно
-window = Tk()
-window.geometry('1000x500')
+    # DB
+    con = sql.connect('second.db')
+    cur = con.cursor()
+    data = {'id': int, 'name': '', 'surname': '', 'email': '', 'pass': '', 'dob': '', 'face': ''}
 
-# Регестрация или капча
-btn = Button(window, text="Регистрация", command=reg)
-btn.grid(column=1, row=0)
-btn1 = Button(window, text="Войти в аккаунт", command=log)
-btn1.grid(column=1, row=40)
+    # YaDisk
+    client_id = "9ccafedf10664913b01666dbceb950b1"
+    secret_id = "7b6ef408e8f445ad9aa387858e1bce1d"
+    token = "y0_AgAAAABpZNC7AAlO3QAAAADe_r4Fm6rN4uA7SwqmSG4P_ptrMQGnls4"
+    disk = yadisk.YaDisk(client_id, secret_id, token)
 
-window.mainloop()
+    # Окно
+    window = Tk()
+    window.geometry('1000x500')
 
-# close DB
-con.close()
+    # Регестрация или капча
+    btn = Button(window, text="Регистрация", command=reg)
+    btn.grid(column=1, row=0)
+    btn1 = Button(window, text="Войти в аккаунт", command=log)
+    btn1.grid(column=1, row=40)
 
-# 182 214
+    window.mainloop()
+
+    # close DB
+    con.close()
+
+    # 182 214
