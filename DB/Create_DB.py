@@ -1,3 +1,4 @@
+import sqlite3 as sql
 def create_DB():
     con = sql.connect('../third.db')
 
@@ -43,7 +44,5 @@ def create_DB():
     con.close()
 
 
-if __name__ == '__mian__':
-    import sqlite3 as sql
-
+if __name__ == '__main__':
     create_DB()
