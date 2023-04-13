@@ -23,14 +23,15 @@ def create_DB():
                 ID INTEGER PRIMARY KEY,
                 Name STRING,
                 Manufacturer STRING,
-                Price INTEGER
+                Price INTEGER,
+                Quantity INTEGER
     );
         """)
     con.commit()
 
     with con:
         con.execute("""
-            CREATE TABLE IF NOT EXISTS sales02 (
+            CREATE TABLE IF NOT EXISTS sales (
                 ID INTEGER PRIMARY KEY,
                 buyer_id INTEGER,
                 product_id INTEGER,
