@@ -1,12 +1,24 @@
 {% extends 'reg_log/layout.html' %}
 
-{% block title %}reg/log{% endblock %}
+{% block title %}Главная{% endblock %}
 
-{% block title %}
-<div class="flex-container">
+{% block body %}
+<main class="container">
     <h1>Выбери действие</h1>
-    <button class="btn btn-danger">Регистрация</button>
-    <button class="btn btn-danger">Вход</button>
-</div>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col">
+            <button class="btn btn-primary" href="#">Регистрация</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary" href="#">Вход</button>
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+    </div>
+</main>
 
 {% endblock %}

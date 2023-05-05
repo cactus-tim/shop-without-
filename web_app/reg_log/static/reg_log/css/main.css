@@ -1,0 +1,17 @@
+body {
+    background: #fff;
+    text-align: center;
+}
+
+main h1 {
+    margin-top: 50px;
+}
+
+.row {
+    margin-top: 35px;
+    height: 75vh;
+}
+
+button:active {
+    transform: scale(103%);
+}
