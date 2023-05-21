@@ -11,3 +11,6 @@ def reg(request):
 
 def log(request):
     return render(request, 'reg_log/log.html')
+
+def footer(request):
+    return render(request,'reg_log/footer.html')
