@@ -6,8 +6,8 @@ def reg_log(request):
 
 
 def reg(request):
-    return render(request, 'reg.html')
+    return render(request, 'reg_log/reg.html')
 
 
 def log(request):
-    return render(request, 'log.html')
+    return render(request, 'reg_log/log.html')
