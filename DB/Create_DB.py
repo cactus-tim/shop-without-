@@ -33,13 +33,11 @@ def create_DB():
 
     with con:
         con.execute("""
-            CREATE TABLE IF NOT EXISTS sales (
-                ID INTEGER PRIMARY KEY,
+            CREATE TABLE IF NOT EXISTS cart (
                 buyer_id INTEGER,
-                product_id INTEGER,
-                amount INTEGER,
-                FOREIGN KEY (buyer_id) REFERENCES users(ID),
-                FOREIGN KEY (product_id) REFERENCES goods(ID)
+                cart JSON,
+                status JSON,
+                FOREIGN KEY (buyer_id) REFERENCES users(ID)
     );
         """)
     con.commit()
