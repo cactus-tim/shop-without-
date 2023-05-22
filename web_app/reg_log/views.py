@@ -14,3 +14,6 @@ def log(request):
 
 def footer(request):
     return render(request,'reg_log/footer.html')
+
+def politics(request):
+    return render(request,'reg_log/politics.html')
