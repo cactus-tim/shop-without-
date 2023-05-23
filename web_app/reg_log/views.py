@@ -16,7 +16,7 @@ from django.db.models import F
 
 def reg_log(request):
     if request.user.is_authenticated:
-        user = Users.objects.get(Email=request.user.username)
+        user = Users.objects.get(id=request.user.id)
         return render(request, 'reg_log/reg_log.html', {'balance': user.Balance})
     return render(request, 'reg_log/reg_log.html')
 

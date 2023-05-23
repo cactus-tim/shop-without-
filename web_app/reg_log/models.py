@@ -11,7 +11,7 @@ class Good(models.Model):
 
 
 class Users(models.Model):
-    ID = models.IntegerField('ID', primary_key=True)
+    ID = models.IntegerField('id', primary_key=True)
     Name = models.CharField('Имя', max_length=100)
     Surname = models.CharField('Фамилия', max_length=100)
     Email = models.EmailField('Почта')
@@ -27,9 +27,9 @@ class Users(models.Model):
 
 
 class Cart(models.Model):
-    buyer_username = models.CharField('Username')
+    buyer_id = models.IntegerField('id', primary_key=True)
     cart = models.JSONField('Корзина')
     status = models.BooleanField('Статус')
 
     def __str__(self):
-        return self.buyer_username
+        return self.buyer_id
