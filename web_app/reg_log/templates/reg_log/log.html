@@ -9,14 +9,9 @@
     <h1 class="mb-4">Вход</h1>
     <form method="POST">
         {% csrf_token %}
-        <div class="form-group mb-3">
-            <label for="inputEmail">Адрес электронной почты</label>
-            <input type="email" class="form-control" id="inputEmail" name="email">
-        </div>
-        <div class="form-group mb-3">
-            <label for="inputPassword">Пароль</label>
-            <input type="password" class="form-control" id="inputPassword" name="password">
-        </div>
+        {{ form.Email }}<br>
+        {{ form.Pass1 }}<br>
+        <span>{{ error }}</span>
         <button type="submit" class="btn btn-primary">Войти</button>
     </form>
 </main>
