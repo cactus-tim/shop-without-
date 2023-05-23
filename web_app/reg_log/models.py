@@ -18,8 +18,18 @@ class Users(models.Model):
     Pass1 = models.CharField('Пароль', max_length=20)
     Pass2 = models.CharField('Проверка пароля', max_length=20)
     Age = models.IntegerField('Возраст')
-    Face = models.CharField('Фотография', max_length=400)
+    # Face = models.ImageField('Фотография', upload_to='users/', default='users/default.png')
+    FaceLink = models.CharField('Фотография', max_length=400)
     Balance = models.IntegerField('Баланс')
 
     def __str__(self):
         return self.Email
+
+
+class Cart(models.Model):
+    buyer_username = models.CharField('Username')
+    cart = models.JSONField('Корзина')
+    status = models.BooleanField('Статус')
+
+    def __str__(self):
+        return self.buyer_username

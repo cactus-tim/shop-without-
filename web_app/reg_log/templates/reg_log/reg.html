@@ -15,6 +15,8 @@
         {{ form.Age }}<br>
         {{ form.Pass1 }}<br>
         {{ form.Pass2 }}<br>
+        {% csrf_token %}
+        #TODO: add photo
         <span>{{ error }}</span>
         <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
     </form>
