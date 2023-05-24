@@ -1,11 +1,11 @@
 from .models import Users
-from django.forms import ModelForm, TextInput
+from django.forms import ModelForm, TextInput, EmailInput, PasswordInput, FileInput
 
 
 class UserRegForm(ModelForm):
     class Meta:
         model = Users
-        fields = ['Name', 'Surname', 'Email', 'Age', 'Pass1', 'Pass2']
+        fields = ['Name', 'Surname', 'Email', 'Age', 'Pass1', 'Pass2', 'Face']
 
         widgets = {
             "Name": TextInput(attrs={
@@ -33,8 +33,13 @@ class UserRegForm(ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Повторите пароль',
                 'type': 'password'
+            }),
+            "Face": FileInput(attrs={
+                'class': 'form-control',
+                'type': 'file',
             })
         }
+
 
 class UserLogForm(ModelForm):
     class Meta:

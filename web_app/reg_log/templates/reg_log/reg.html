@@ -7,7 +7,7 @@
 {% block body %}
 <main class="container my-5">
     <h1 class="mb-4">Регистрация</h1>
-    <form method="post" >
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.Name }}<br>
         {{ form.Surname }}<br>
@@ -15,8 +15,8 @@
         {{ form.Age }}<br>
         {{ form.Pass1 }}<br>
         {{ form.Pass2 }}<br>
-        {% csrf_token %}
-        #TODO: add photo
+        <label>Добавьте вашу фотографию</label>
+        {{ form.Face }}<br>
         <span>{{ error }}</span>
         <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
     </form>

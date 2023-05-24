@@ -5,9 +5,9 @@ from reg_log.models import Users
 
 
 def lk(request):
-    if request.user.is_authenticated:
-        user = Users.objects.get(id=request.user.id)
-        return render(request, 'lk/lk.html', {'balance': user.Balance})
+    # if request.user.is_authenticated:
+    #     user = Users.objects.get(id=request.user.id)
+    #     return render(request, 'lk/lk.html', {'balance': user.Balance})
     return render(request, 'lk/lk.html')
 
 

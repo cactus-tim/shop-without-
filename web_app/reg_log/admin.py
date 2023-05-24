@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Good, Users, Cart
+from .models import Good, Cart, Users
 
 admin.site.register(Good)
 admin.site.register(Users)

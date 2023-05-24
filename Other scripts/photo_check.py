@@ -1,6 +1,7 @@
 import yadisk
 import sys
 
+
 def try_upload(disk, path, filename):
     flag = False
     for i in range(1, 101):
@@ -14,6 +15,7 @@ def try_upload(disk, path, filename):
         if flag:
             return False
 
+
 def photo_to_cloud():
     client_id = "9ccafedf10664913b01666dbceb950b1"
     secret_id = "7b6ef408e8f445ad9aa387858e1bce1d"
@@ -26,6 +28,7 @@ def photo_to_cloud():
     email = input()  # tim.sosnin@gmail.com
     print("Введте локальный путь до фотографии:")
     path = input()  # /Users/timofejsosnin/Downloads/photo_2023-02-27 22.40.00.jpeg
+    # /Users/timofejsosnin/senyaxuisosi/shop-without-/web_app/media/photo_2023-02-27_22.40.00.jpeg
 
     if disk.check_token():
         # TODO take ID from DB
@@ -46,5 +49,10 @@ def photo_to_cloud():
         sys.exit(0)
 
 
+def fk():
+    path = '/Users/timofejsosnin/senyaxuisosi/shop-without-/web_app/media/photo_2023-02-27 22.40.00.jpeg'
+    print(path[0:62] + 'images/' + path[62:].replace(' ', '_'))
+
+
 if __name__ == '__main__':
-    photo_to_cloud()
+    fk()

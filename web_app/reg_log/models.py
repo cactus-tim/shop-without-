@@ -11,14 +11,14 @@ class Good(models.Model):
 
 
 class Users(models.Model):
-    ID = models.IntegerField('id', primary_key=True)
+    id = models.IntegerField('id', primary_key=True)
     Name = models.CharField('Имя', max_length=100)
     Surname = models.CharField('Фамилия', max_length=100)
     Email = models.EmailField('Почта')
     Pass1 = models.CharField('Пароль', max_length=20)
     Pass2 = models.CharField('Проверка пароля', max_length=20)
     Age = models.IntegerField('Возраст')
-    # Face = models.ImageField('Фотография', upload_to='users/', default='users/default.png')
+    Face = models.FileField('Фотография', upload_to='images')
     FaceLink = models.CharField('Фотография', max_length=400)
     Balance = models.IntegerField('Баланс')
 
