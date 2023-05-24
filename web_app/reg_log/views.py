@@ -15,44 +15,16 @@ from django.db.models import F
 
 
 def reg_log(request):
-    # if request.user.is_authenticated:
-    #     user = Users.objects.get(id=request.user.id)
-    #     return render(request, 'reg_log/reg_log.html', {'balance': user.Balance})
+    if request.user.is_authenticated:
+        user = Users.objects.get(id=request.user.id)
+        return render(request, 'reg_log/reg_log.html', {'balance': user.Balance})
     return render(request, 'reg_log/reg_log.html')
 
 
-def try_upload(disk, path, filename):
-    flag = False
-    for i in range(1, 101):
-        try:
-            disk.upload(path, filename)
-            if disk.exists(filename):
-                flag = True
-                return True
-        except Exception as ex:
-            print(ex)
-    if not flag:
-        return False
-
-
-def photo_to_cloud(path, email):
-    client_id = "9ccafedf10664913b01666dbceb950b1"
-    secret_id = "7b6ef408e8f445ad9aa387858e1bce1d"
-    token = "y0_AgAAAABpZNC7AAlO3QAAAADe_r4Fm6rN4uA7SwqmSG4P_ptrMQGnls4"
-
-    disk = yadisk.YaDisk(client_id, secret_id, token)
-
-    link = ''
-
-    if disk.check_token():
-        filename = '/' + email
-        if try_upload(disk, path, filename):
-            link = disk.get_download_link(filename)
-            return link
-        else:
-            return 'Error'
-    else:
-        return 'Error'
+def valid(user, myuser):
+    # if user.id != myuser.id:
+    #     return False
+    pass
 
 
 def reg(request):
@@ -63,12 +35,8 @@ def reg(request):
         form = UserRegForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save(commit=False)
-            path = user.Face.path[0:62] + 'images/' + user.Face.path[62:].replace(' ', '_')
+            user.FaceLink = user.Face.path[0:62] + 'images/' + user.Face.path[62:].replace(' ', '_')
             #если поменяем путь, надо менять
-            user.FaceLink = photo_to_cloud(path, user.Email)
-            if user.FaceLink == 'Error':
-                # TODO: сделать нормальную обработку ошибок
-                return redirect('home')
 
             user.Balance = 0
 
@@ -82,10 +50,10 @@ def reg(request):
 
             myuser = User.objects.create_user(username=user.Email, password=user.Pass1)
             myuser.first_name = user.Name
-            myuser.save()
             user.id = myuser.id
             au_user = authenticate(username=user.Email, password=user.Pass1)
             login(request, au_user)
+            valid(user, myuser)
             myuser.save()
             user.save()
             return redirect('lk')

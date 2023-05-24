@@ -50,7 +50,7 @@ def photo_to_cloud():
 
 
 def fk():
-    path = '/Users/timofejsosnin/senyaxuisosi/shop-without-/web_app/media/photo_2023-02-27 22.40.00.jpeg'
+    path = '/Users/timofejsosnin/senyaxuisosi/shop-without-/web_app/media/photo_2023-02-27 22.40.00_ewrvknerljkvnc.jpeg'
     print(path[0:62] + 'images/' + path[62:].replace(' ', '_'))
 
 
