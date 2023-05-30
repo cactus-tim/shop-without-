@@ -1,10 +1,11 @@
 {% extends 'lk/layout.html' %}
 
 {% block title %}Личный кабинет{% endblock %}
-
 {% block body %}
 <main class="container">
-    <button class="btn btn-success" href="#">Открыть камеру</button>
+    <button class="btn btn-success mb-4" id="open-camera-btn">Открыть камеру</button>
+<!--     <canvas id="camera-preview"></canvas>-->
+<!--    <div id="result-container"></div>-->
     <h2>Ваша корзина</h2>
     <div class="col">
         <div class="row">
@@ -34,6 +35,62 @@
             </div>
         </div>
     </div>
+    <canvas id="camera-preview"></canvas>
+    <div id="result-container"></div>
 </main>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var canvas = document.getElementById('camera-preview');
+        var context = canvas.getContext('2d');
+        var video = document.createElement('video');
+        $('#open-camera-btn').click(function() {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(function(stream) {
+                        video.srcObject = stream;
+                        video.play();
+                        animate();
+                    })
+                    .catch(function(error) {
+                        console.log('Ошибка при получении доступа к камере:', error);
+                    });
+            }
+        });
+          $(document).ready(function() {
+            $('#open-camera-btn').click(function() {
+                $.ajax({
+                    url: 'run-script',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#result-container').text(data.result);
+                    },
+                    error: function() {
+                        $('#result-container').text('Ошибка при выполнении скрипта.');
+                    }
+                });
+            });
+        });
+          $(document).ready(function() {
+            $('#open-camera-btn').click(function() {
+                $.ajax({
+                    url: 'camera-work',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#result-container').text(data.result);
+                    },
+                    error: function() {
+                        $('#result-container').text('Ошибка при выполнении скрипта.');
+                    }
+                });
+            });
+        });
+        function animate() {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            requestAnimationFrame(animate);
+        }
+    });
+</script>
 {% endblock %}
