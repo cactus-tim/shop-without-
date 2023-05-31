@@ -32,4 +32,4 @@ class Cart(models.Model):
     status = models.BooleanField('Статус')
 
     def __str__(self):
-        return self.buyer_id
+        return str(self.buyer_id)

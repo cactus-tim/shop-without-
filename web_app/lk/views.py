@@ -1,7 +1,8 @@
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.shortcuts import render
-from reg_log.models import Users
+from reg_log.models import Users, Cart
 import yadisk
 from pyzbar.pyzbar import decode
 import cv2
@@ -79,11 +80,30 @@ def camera_work(request):
 
             if barCode != -1:
                 print(barCode)
+                update_cart(request.user.id, barCode)
                 return redirect('lk')
             else:
                 return redirect('lk')
 
 
+def update_cart(buyer_id, good):
+    good_id = str(good)
+    if Cart.objects.filter(buyer_id=buyer_id).exists():
+        cart = Cart.objects.get(buyer_id=buyer_id)
+        if good_id in cart.cart:
+            cart.cart[good_id] += 1
+        else:
+            cart.cart[good_id] = 1
+        cart.save()
+        print(cart.cart)
+    else:
+        cart_data = {good_id: 1}
+        cart = Cart(buyer_id=buyer_id, cart=cart_data, status=True)
+        cart.save()
+        print(cart.cart)
+
+
+@login_required
 def lk(request):
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id)
