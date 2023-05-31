@@ -4,7 +4,10 @@
 
 {% block body %}
 <main class="container">
-    <button class="btn btn-success" href="#">Открыть камеру</button>
+    <button class="btn btn-success mb-4" id="open-camera-btn">Открыть камеру</button>
+    <button class="btn btn-danger mb-4" id="close-camera-btn" style="display:none;">Закрыть камеру</button>
+<!--     <canvas id="camera-preview"></canvas>-->
+<!--    <div id="result-container"></div>-->
     <h2>Ваша корзина</h2>
     <div class="col">
         <div class="row">
@@ -34,6 +37,81 @@
             </div>
         </div>
     </div>
-</main>
+    <canvas id="camera-preview"></canvas>
+    <div id="result-container"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+            var canvas = document.getElementById('camera-preview');
+            var context = canvas.getContext('2d');
+            var video = document.createElement('video');
+            var stream;
+            $('#open-camera-btn').click(openCameraAndRunAjax);
+            function openCameraAndRunAjax() {
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ video: true })
+                        .then(function(mediaStream) {
+                            stream = mediaStream;
+                            video.srcObject = stream;
+                            video.play();
+                            animate();
+                            $('#open-camera-btn').hide();
+                            $('#close-camera-btn').show();
+                            $(canvas).show();
+                            runAjaxRequest();
+                        })
+                        .catch(function(error) {
+                            console.log('Ошибка при получении доступа к камере:', error);
+                        });
+                }
+            }
 
+            $('#close-camera-btn').click(function() {
+                if (stream) {
+                    stream.getTracks().forEach(function(track) {
+                        track.stop();
+                    });
+                }
+                $('#open-camera-btn').show();
+                $('#close-camera-btn').hide();
+                $(canvas).hide();
+                $('#open-camera-btn').off('click', openCameraAndRunAjax);
+                $('#open-camera-btn').on('click', openCameraAndRunAjax);
+            });
+            function animate() {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            requestAnimationFrame(animate);
+        }
+        //  $(document).ready(function() {
+        //     $('#open-camera-btn').click(function() {
+        //         $.ajax({
+        //             url: 'camera-work',
+        //             type: 'GET',
+        //             dataType: 'json',
+        //             success: function(data) {
+        //                 $('#result-container').text(data.result);
+        //             },
+        //             error: function() {
+        //                 $('#result-container').text('');
+        //             }
+        //         });
+        //     });
+        // });
+        function runAjaxRequest() {
+                $.ajax({
+                    url: 'camera-work',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#result-container').text(data.result);
+                    },
+                    error: function() {
+                        $('#result-container').text('');
+                    }
+                });
+            }
+
+    })
+</script>
+    </main>
 {% endblock %}

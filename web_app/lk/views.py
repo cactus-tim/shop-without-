@@ -1,8 +1,11 @@
-from django.shortcuts import render
 from django.contrib.auth import logout
 from django.shortcuts import redirect
+from django.shortcuts import render
 from reg_log.models import Users
 import yadisk
+from pyzbar.pyzbar import decode
+import cv2
+import pandas as np
 
 
 def try_upload(disk, path, filename):
@@ -42,19 +45,57 @@ def photo_to_cloud(path, email):
     else:
         return 'Error'
 
+def from_bd(BarCode):
+    pass
+
+
+def camera_work(request):
+    print("OK")
+    barCode = -1
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    cap = cv2.VideoCapture(0)
+    while (cap.isOpened()):
+        # чтение с камеры
+        ret, frame = cap.read()
+        im = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+        # декодинг
+        decodedObjects = decode(im)
+
+        for decodedObject in decodedObjects:
+            points = decodedObject.polygon
+
+            # выделяет сам qr код в квадрат(немного магии)
+            if len(points) > 4:
+                hull = cv2.convexHull(np.array([point for point in points], dtype=np.float32))
+                hull = list(map(tuple, np.squeeze(hull)))
+            else:
+                hull = points
+
+            n = len(hull)
+            for j in range(0, n):
+                cv2.line(frame, hull[j], hull[(j + 1) % n], (255, 0, 0), 3)
+            barCode = int(decodedObject.data)
+
+            if barCode != -1:
+                print(barCode)
+                return redirect('lk')
+            else:
+                return redirect('lk')
+
 
 def lk(request):
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id)
 
-        path = user.FaceLink
-        user.FaceLink = photo_to_cloud(path, user.Email)
-        if user.FaceLink == 'Error':
-            user.delete()
-            request.user.delete()
-            # надо заново регаться
-            # TODO: сделать нормальную обработку ошибок
-            return redirect('home')
+        # path = user.FaceLink
+        # user.FaceLink = photo_to_cloud(path, user.Email)
+        # if user.FaceLink == 'Error':
+        #     user.delete()
+        #     request.user.delete()
+        #     # надо заново регаться
+        #     # TODO: сделать нормальную обработку ошибок
+        #     return redirect('home')
 
         return render(request, 'lk/lk.html', {'balance': user.Balance})
     return render(request, 'lk/lk.html')
