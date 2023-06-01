@@ -2,11 +2,19 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.shortcuts import render
-from reg_log.models import Users, Cart
+from reg_log.models import Users, Cart, Good
 import yadisk
 from pyzbar.pyzbar import decode
 import cv2
 import pandas as np
+
+
+class Product:
+    def __init__(self, name, cost, count, amount):
+        self.name = name
+        self.cost = cost
+        self.count = count
+        self.amount = amount
 
 
 def try_upload(disk, path, filename):
@@ -45,6 +53,7 @@ def photo_to_cloud(path, email):
                 return 'Error'
     else:
         return 'Error'
+
 
 def from_bd(BarCode):
     pass
@@ -107,6 +116,29 @@ def update_cart(buyer_id, good):
 def lk(request):
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id)
+        if Cart.objects.filter(buyer_id=request.user.id).exists():
+            cart = Cart.objects.get(buyer_id=request.user.id)
+            products = []
+            for key, value in cart.cart.items():
+                products.append(Product(Good.objects.get(id=int(key)).title,
+                                        Good.objects.get(id=int(key)).price,
+                                        value,
+                                        Good.objects.get(id=int(key)).price * value))
+
+            data = {
+                'balance': user.Balance,
+                'products': products
+            }
+
+            return render(request, 'lk/lk.html', data)
+
+        else:
+            data = {
+                'balance': user.Balance,
+                'products': []
+            }
+
+            return render(request, 'lk/lk.html', data)
 
         # path = user.FaceLink
         # user.FaceLink = photo_to_cloud(path, user.Email)
@@ -117,7 +149,6 @@ def lk(request):
         #     # TODO: сделать нормальную обработку ошибок
         #     return redirect('home')
 
-        return render(request, 'lk/lk.html', {'balance': user.Balance})
     return render(request, 'lk/lk.html')
 
 

@@ -5,37 +5,33 @@
 {% block body %}
 <main class="container">
     <button class="btn btn-success mb-4" id="open-camera-btn">Открыть камеру</button>
-    <button class="btn btn-danger mb-4" id="close-camera-btn" style="display:none;">Закрыть камеру</button>
+    <button class="btn btn-danger mb-4" id="close-camera-btn" style="display:none;" type="submit">Закрыть камеру</button>
+    <script>
+        document.getElementById("close-camera-btn").addEventListener("click", function(){
+            location.reload();
+        });
+    </script>
+
 <!--     <canvas id="camera-preview"></canvas>-->
 <!--    <div id="result-container"></div>-->
     <h2>Ваша корзина</h2>
     <div class="col">
-        <div class="row">
-            <div class="card">
-                <div class="card_left">
-                    <img src="#" alt="Фотография товара">
+        {% csrf_token %}
+            {% for product in products %}
+                <div class="row">
+                    <div class="card">
+                        <div class="card_left">
+                            <img src="#" alt="Фотография товара">
+                        </div>
+                        <div class="card_right">
+                            <div class="name">Название: {{ product.name }}</div>
+                            <div class="count">Количество: {{ product.count }}</div>
+                            <div class="price">Цена: {{ product.cost }}</div>
+                            <div class="cost">Итого: {{ product.amount }}</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card_right">
-                    <div class="name">Название товара</div>
-                    <div class="count">Кол-во товара</div>
-                    <div class="price">Стоимость товара</div>
-                    <div class="cost">Итого</div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="card">
-                <div class="card_left">
-                    <img src="#" alt="Фотография товара">
-                </div>
-                <div class="card_right">
-                    <div class="name">Название товара</div>
-                    <div class="count">Кол-во товара</div>
-                    <div class="price">Стоимость товара</div>
-                    <div class="cost">Итого</div>
-                </div>
-            </div>
-        </div>
+            {% endfor %}
     </div>
     <canvas id="camera-preview"></canvas>
     <div id="result-container"></div>
@@ -82,21 +78,6 @@
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
             requestAnimationFrame(animate);
         }
-        //  $(document).ready(function() {
-        //     $('#open-camera-btn').click(function() {
-        //         $.ajax({
-        //             url: 'camera-work',
-        //             type: 'GET',
-        //             dataType: 'json',
-        //             success: function(data) {
-        //                 $('#result-container').text(data.result);
-        //             },
-        //             error: function() {
-        //                 $('#result-container').text('');
-        //             }
-        //         });
-        //     });
-        // });
         function runAjaxRequest() {
                 $.ajax({
                     url: 'camera-work',
