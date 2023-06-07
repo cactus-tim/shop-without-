@@ -108,3 +108,11 @@ def footer(request):
 
 def politics(request):
     return render(request, 'reg_log/politics.html')
+
+def katalog(request):
+    return render(request,'reg_log/katalog.html')
+
+def LichnyK(request):
+    return render(request,'lk/lk.html')
+def balance(request):
+    return render(request,'reg_log/balance.html')
