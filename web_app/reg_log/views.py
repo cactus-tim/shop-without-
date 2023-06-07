@@ -2,6 +2,7 @@ from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
 from django.db.backends import sqlite3
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -130,6 +131,7 @@ def LichnyK(request):
     return render(request, 'lk/lk.html')
 
 
+@login_required
 def balance(request):
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id)
