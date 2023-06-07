@@ -104,5 +104,52 @@ footer.body {
    font-size: 18px;
    line-height: 1.5;
    margin-bottom: 15px;
-  }
+  }.
 
+   .container {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.centered {
+  display: block;
+  width: 350px; /* задаем фиксированную ширину */
+  margin: 0 auto; /* выравниваем по центру */
+}
+
+.btn {
+  font-size: 24px;
+  padding: 20px 40px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.btn:hover {
+  background-color: #0069d9;
+}
+
+.btn-primary {
+  background-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+}
+h1{
+    text-align: center;
+    margin-top: 80px;
+    margin-bottom: 40px;
+}
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+header ul li a {
+color: black;
+}

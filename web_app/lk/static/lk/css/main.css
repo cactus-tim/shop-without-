@@ -35,3 +35,13 @@ button:active {
     margin-right: 10px;
     text-align: center;
 }
+header ul li a {
+color: black;
+}
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+
