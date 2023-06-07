@@ -103,16 +103,35 @@ def out(request):
 
 
 def footer(request):
+    if request.user.is_authenticated:
+        user = Users.objects.get(id=request.user.id)
+        return render(request, 'reg_log/footer.html', {'balance': user.Balance})
     return render(request, 'reg_log/footer.html')
 
 
 def politics(request):
+    if request.user.is_authenticated:
+        user = Users.objects.get(id=request.user.id)
+        return render(request, 'reg_log/politics.html', {'balance': user.Balance})
     return render(request, 'reg_log/politics.html')
 
+
 def katalog(request):
-    return render(request,'reg_log/katalog.html')
+    if request.user.is_authenticated:
+        user = Users.objects.get(id=request.user.id)
+        return render(request, 'reg_log/katalog.html', {'balance': user.Balance})
+    return render(request, 'reg_log/katalog.html')
+
 
 def LichnyK(request):
-    return render(request,'lk/lk.html')
+    if request.user.is_authenticated:
+        user = Users.objects.get(id=request.user.id)
+        return render(request, 'reg_log/lk.html', {'balance': user.Balance})
+    return render(request, 'lk/lk.html')
+
+
 def balance(request):
-    return render(request,'reg_log/balance.html')
+    if request.user.is_authenticated:
+        user = Users.objects.get(id=request.user.id)
+        return render(request, 'reg_log/balance.html', {'balance': user.Balance})
+    return render(request, 'reg_log/balance.html')

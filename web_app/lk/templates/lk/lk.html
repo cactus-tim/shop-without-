@@ -14,24 +14,25 @@
 
 <!--     <canvas id="camera-preview"></canvas>-->
 <!--    <div id="result-container"></div>-->
+    {% csrf_token %}
     <h2>Ваша корзина</h2>
     <div class="col">
-        {% csrf_token %}
-            {% for product in products %}
-                <div class="row">
-                    <div class="card">
-                        <div class="card_left">
-                            <img src="#" alt="Фотография товара">
-                        </div>
-                        <div class="card_right">
-                            <div class="name">Название: {{ product.name }}</div>
-                            <div class="count">Количество: {{ product.count }}</div>
-                            <div class="price">Цена: {{ product.cost }}</div>
-                            <div class="cost">Итого: {{ product.amount }}</div>
-                        </div>
+        {% for product in products %}
+            <div class="row">
+                <div class="card">
+                    <div class="card_left">
+                        <img src="#" alt="Фотография товара">
+                    </div>
+                    <div class="card_right">
+                        <div class="name">Название: {{ product.name }}</div>
+                        <div class="count">Количество: {{ product.count }}</div>
+                        <div class="price">Цена: {{ product.cost }}</div>
+                        <div class="cost">Итого: {{ product.amount }}</div>
                     </div>
                 </div>
-            {% endfor %}
+            </div>
+        {% endfor %}
+    <h2>Итого: {{ total }}P</h2>
     </div>
     <canvas id="camera-preview"></canvas>
     <div id="result-container"></div>
