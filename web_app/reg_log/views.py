@@ -37,7 +37,7 @@ def reg(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.FaceLink = user.Face.path[0:62] + 'images/' + user.Face.path[62:].replace(' ', '_')
-            #если поменяем путь, надо менять
+            # если поменяем путь, надо менять
 
             user.Balance = 0
 
@@ -135,6 +135,9 @@ def LichnyK(request):
 def balance(request):
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id)
+        if request.method == 'POST':
+            add_balance = request.POST.get('custom-amount-input')
+            user.Balance += int(add_balance)
+            user.save()
         return render(request, 'reg_log/balance.html', {'balance': user.Balance})
-
     return render(request, 'reg_log/balance.html')

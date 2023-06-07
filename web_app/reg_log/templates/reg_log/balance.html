@@ -3,7 +3,8 @@
     <title>Пополнение баланса</title>
 {% endblock %}
 {% block body %}
-<form>
+<form method="post" action="{% url 'balance' %}">
+  {% csrf_token %}
   <div class="form-group">
     <label for="card-number">Номер карты</label>
     <input type="text" class="form-control" id="card-number" placeholder="Введите номер карты">
@@ -19,7 +20,7 @@
   <div class="form-group">
     <label for="amount">Введите сумму пополнения</label>
     <div id="custom-amount">
-      <input type="text" class="form-control" id="custom-amount-input" placeholder="Введите сумму">
+      <input type="number" class="form-control" id="custom-amount-input" name="custom-amount-input" placeholder="Введите сумму">
     </div>
   </div>
   <button type="submit" class="btn btn-primary">Пополнить баланс</button>
