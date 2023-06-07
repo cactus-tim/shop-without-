@@ -11,6 +11,7 @@ import sqlite3 as sql
 from .forms import UserRegForm, UserLogForm
 import yadisk
 from .models import Users
+from lk.views import photo_to_cloud, try_upload
 
 from django.db.models import F
 
@@ -141,3 +142,23 @@ def balance(request):
             user.save()
         return render(request, 'reg_log/balance.html', {'balance': user.Balance})
     return render(request, 'reg_log/balance.html')
+
+
+@login_required
+def profile(request):
+    if request.user.is_authenticated:
+        user = Users.objects.get(id=request.user.id)
+
+        path = user.FaceLink
+        user.FaceLink = photo_to_cloud(path, user.Email)
+        if user.FaceLink == 'Error':
+            user.delete()
+            request.user.delete()
+            # надо заново регаться
+            # TODO: сделать нормальную обработку ошибок
+            return redirect('home')
+        else:
+            user.save()
+
+        return render(request, 'reg_log/profile.html', {'user': user})
+    return render(request, 'reg_log/profile.html')

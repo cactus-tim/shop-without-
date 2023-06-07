@@ -13,5 +13,6 @@ urlpatterns = [
     path('politics/', views.politics, name='politics'),
     path('katalog/', views.katalog, name='katalog'),
     path('lk/', views.LichnyK, name='lk'),
-    path('balance/', views.balance, name='balance')
-]
+    path('balance/', views.balance, name='balance'),
+    path('profile/', views.profile, name='profile')
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

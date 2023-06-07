@@ -18,6 +18,14 @@ class Product:
         self.amount = amount
 
 
+class HistoryCart:
+    def __init__(self, id, names, counts, amount):
+        self.id = id
+        self.names = names
+        self.counts = counts
+        self.amount = amount
+
+
 def try_upload(disk, path, filename):
     flag = False
     for i in range(1, 101):
@@ -96,10 +104,33 @@ def camera_work(request):
                 return redirect('lk')
 
 
+def create_emb(user):
+    path = '../../recognition/Images/' + user.Name + ' ' + user.Surname
+    try:
+        os.makedirs(path)
+    except FileExistsError:
+        os.rmdir(path)
+        os.makedirs(path)
+
+    client_id = "9ccafedf10664913b01666dbceb950b1"
+    secret_id = "7b6ef408e8f445ad9aa387858e1bce1d"
+    token = "y0_AgAAAABpZNC7AAlO3QAAAADe_r4Fm6rN4uA7SwqmSG4P_ptrMQGnls4"
+
+    disk = yadisk.YaDisk(client_id, secret_id, token)
+
+    if disk.check_token():
+        filename = '/' + user.Email
+        if disk.exists(filename):
+            disk.download_by_link(user.FaceLink, path)
+            return True
+        else:
+            return False
+
+
 def update_cart(buyer_id, good):
     good_id = str(good)
-    if Cart.objects.filter(buyer_id=buyer_id).exists():
-        cart = Cart.objects.get(buyer_id=buyer_id)
+    if Cart.objects.filter(buyer_id=buyer_id, status=True).exists():
+        cart = Cart.objects.filter(buyer_id=buyer_id, status=True).first()
         price = Good.objects.get(id=good).price
         if good_id in cart.cart:
             cart.cart[good_id] += 1
@@ -112,7 +143,10 @@ def update_cart(buyer_id, good):
         cart_data = {good_id: 1}
         price = Good.objects.get(id=good).price
         cart = Cart(buyer_id=buyer_id, cart=cart_data, total=price, status=True)
-        # emb
+        user = Users.objects.get(id=buyer_id)
+        if not create_emb(user):
+            photo_to_cloud(user.Face.url, user.Email)
+            yep = create_emb(user)
         cart.save()
         print(cart.cart)
 
@@ -121,8 +155,8 @@ def update_cart(buyer_id, good):
 def lk(request):
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id)
-        if Cart.objects.filter(buyer_id=request.user.id).exists():
-            cart = Cart.objects.get(buyer_id=request.user.id)
+        if Cart.objects.filter(buyer_id=request.user.id, status=True).exists():
+            cart = Cart.objects.filter(buyer_id=request.user.id, status=True).first()
             products = []
             for key, value in cart.cart.items():
                 products.append(Product(Good.objects.get(id=int(key)).title,
@@ -136,15 +170,6 @@ def lk(request):
                 'total': cart.total
             }
 
-            path = user.FaceLink
-            user.FaceLink = photo_to_cloud(path, user.Email)
-            if user.FaceLink == 'Error':
-                user.delete()
-                request.user.delete()
-                # надо заново регаться
-                # TODO: сделать нормальную обработку ошибок
-                return redirect('home')
-
             return render(request, 'lk/lk.html', data)
 
         else:
@@ -153,15 +178,6 @@ def lk(request):
                 'products': [],
                 'total': '0'
             }
-
-            path = user.FaceLink
-            user.FaceLink = photo_to_cloud(path, user.Email)
-            if user.FaceLink == 'Error':
-                user.delete()
-                request.user.delete()
-                # надо заново регаться
-                # TODO: сделать нормальную обработку ошибок
-                return redirect('home')
 
             return render(request, 'lk/lk.html', data)
 
@@ -198,12 +214,59 @@ def LichnyK(request):
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id)
         return render(request, 'reg_log/lk.html', {'balance': user.Balance})
-    return render(request, 'lk/lk.html')
+    return render(request, 'reg_log/lk.html')
 
 
 @login_required
 def balance(request):
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id)
+        if request.method == 'POST':
+            add_balance = request.POST.get('custom-amount-input')
+            user.Balance += int(add_balance)
+            user.save()
         return render(request, 'reg_log/balance.html', {'balance': user.Balance})
     return render(request, 'reg_log/balance.html')
+
+
+@login_required
+def profile(request):
+    if request.user.is_authenticated:
+        user = Users.objects.get(id=request.user.id)
+
+        path = user.FaceLink
+        user.FaceLink = photo_to_cloud(path, user.Email)
+        if user.FaceLink == 'Error':
+            user.delete()
+            request.user.delete()
+            # надо заново регаться
+            # TODO: сделать нормальную обработку ошибок
+            return redirect('home')
+        else:
+            user.save()
+
+        return render(request, 'reg_log/profile.html', {'user': user})
+    return render(request, 'reg_log/profile.html')
+
+
+@login_required
+def history(request):
+    if request.user.is_authenticated:
+        user = Users.objects.get(id=request.user.id)
+        carts = Cart.objects.filter(buyer_id=request.user.id, status=False)
+        historycarts = []
+        for cart in carts:
+            names = []
+            counts = []
+            for key, value in cart.cart.items():
+                names.append(Good.objects.get(id=int(key)).title)
+                counts.append(value)
+            historycarts.append(HistoryCart(cart.id, names, counts, cart.total))
+
+        data = {
+            'balance': user.Balance,
+            'historycarts': historycarts
+        }
+
+        return render(request, 'lk/history.html', data)
+    return render(request, 'lk/history.html')

@@ -27,10 +27,11 @@ class Users(models.Model):
 
 
 class Cart(models.Model):
-    buyer_id = models.IntegerField('id', primary_key=True)
+    id = models.IntegerField('id', primary_key=True)
+    buyer_id = models.IntegerField('id покупателя')
     cart = models.JSONField('Корзина')
     total = models.IntegerField('Total')
     status = models.BooleanField('Статус')
 
     def __str__(self):
-        return str(self.buyer_id)
+        return str(self.id)

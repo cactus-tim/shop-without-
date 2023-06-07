@@ -1,0 +1,30 @@
+{% extends 'lk/layout.html' %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block body %}
+<main class="container">
+    <h2>История заказов</h2>
+    <a href="{% url 'lk' %}">Назад</a>
+    {% csrf_token %}
+    <div class="col">
+        {% for historycart in historycarts %}
+            <div class="row">
+                <div class="card">
+                    <div class="card_left">
+                        <img src="#" alt="Фотография товара">
+                    </div>
+                    <div class="card_right">
+                        <h2>Заказ № {{ historycart.id }}</h2>
+                        {% load zip %}
+                        {% for name, count in historycart.names|zip_lists:historycart.counts %}
+                            <div class="item">{{ name }}   x{{ count }}</div>
+                        {% endfor %}
+                        <div class="cost">Итого: {{ historycart.amount }}P</div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

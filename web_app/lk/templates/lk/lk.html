@@ -15,6 +15,7 @@
 <!--     <canvas id="camera-preview"></canvas>-->
 <!--    <div id="result-container"></div>-->
     {% csrf_token %}
+    <a href="{% url 'history' %}">История заказов</a>
     <h2>Ваша корзина</h2>
     <div class="col">
         {% for product in products %}
