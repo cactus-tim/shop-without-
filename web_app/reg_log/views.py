@@ -136,4 +136,5 @@ def balance(request):
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id)
         return render(request, 'reg_log/balance.html', {'balance': user.Balance})
+
     return render(request, 'reg_log/balance.html')

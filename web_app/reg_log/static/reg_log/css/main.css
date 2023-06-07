@@ -145,10 +145,13 @@ h1{
     margin-bottom: 40px;
 }
 footer {
-  position: fixed;
-  left: 0;
   bottom: 0;
+  left: 0;
   width: 100%;
+  background-color: #f6efef;
+  color: #010a0a;
+  text-align: center;
+  padding: 10px;
 }
 header ul li a {
 color: black;
