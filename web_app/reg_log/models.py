@@ -18,7 +18,7 @@ class Users(models.Model):
     Pass1 = models.CharField('Пароль', max_length=20)
     Pass2 = models.CharField('Проверка пароля', max_length=20)
     Age = models.IntegerField('Возраст')
-    Face = models.FileField('Фотография', upload_to='images')
+    Face = models.FileField('Фотография')
     FaceLink = models.CharField('Фотография', max_length=400)
     Balance = models.IntegerField('Баланс')
 

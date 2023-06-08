@@ -104,29 +104,6 @@ def camera_work(request):
                 return redirect('lk')
 
 
-def create_emb(user):
-    path = '../../recognition/Images/' + user.Name + ' ' + user.Surname
-    try:
-        os.makedirs(path)
-    except FileExistsError:
-        os.rmdir(path)
-        os.makedirs(path)
-
-    client_id = "9ccafedf10664913b01666dbceb950b1"
-    secret_id = "7b6ef408e8f445ad9aa387858e1bce1d"
-    token = "y0_AgAAAABpZNC7AAlO3QAAAADe_r4Fm6rN4uA7SwqmSG4P_ptrMQGnls4"
-
-    disk = yadisk.YaDisk(client_id, secret_id, token)
-
-    if disk.check_token():
-        filename = '/' + user.Email
-        if disk.exists(filename):
-            disk.download_by_link(user.FaceLink, path)
-            return True
-        else:
-            return False
-
-
 def update_cart(buyer_id, good):
     good_id = str(good)
     if Cart.objects.filter(buyer_id=buyer_id, status=True).exists():
@@ -144,9 +121,6 @@ def update_cart(buyer_id, good):
         price = Good.objects.get(id=good).price
         cart = Cart(buyer_id=buyer_id, cart=cart_data, total=price, status=True)
         user = Users.objects.get(id=buyer_id)
-        if not create_emb(user):
-            photo_to_cloud(user.Face.url, user.Email)
-            yep = create_emb(user)
         cart.save()
         print(cart.cart)
 
@@ -234,18 +208,23 @@ def profile(request):
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id)
 
-        path = user.FaceLink
-        user.FaceLink = photo_to_cloud(path, user.Email)
-        if user.FaceLink == 'Error':
-            user.delete()
-            request.user.delete()
-            # надо заново регаться
-            # TODO: сделать нормальную обработку ошибок
-            return redirect('home')
-        else:
-            user.save()
+        # path = user.FaceLink
+        # user.FaceLink = photo_to_cloud(path, user.Email)
+        # if user.FaceLink == 'Error':
+        #     user.delete()
+        #     request.user.delete()
+        #     # надо заново регаться
+        #     # TODO: сделать нормальную обработку ошибок
+        #     return redirect('home')
+        # else:
+        #     user.save()
 
-        return render(request, 'reg_log/profile.html', {'user': user})
+        data = {
+            'balance': user.Balance,
+            'user': user
+        }
+
+        return render(request, 'reg_log/profile.html', data)
     return render(request, 'reg_log/profile.html')
 
 
