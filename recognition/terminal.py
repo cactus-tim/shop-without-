@@ -5,7 +5,8 @@ import time
 from tkinter import *
 import cv2
 import os
-
+import sqlite3 as sql
+import yadisk
 
 def end():
     print("Streaming started")
@@ -30,23 +31,46 @@ def failed(rot):
     end()
 
 
-def spisali_rubiki(rot):
+def spisali_rubiki(rot, id):
     rot.destroy()
     minus_dengi = True
+    id = 44
+    con = sql.connect('../web_app/db.first')
+    c = con.cursor()
+    c.execute("DELETE FROM reg_log_cart WHERE buyer_id = ?", (id, ))
+    con.commit()
+    con.close()
+    os.remove('face_enc')
     end()
 
 
-def accept(name):
+def accept(mail):
     root = Tk()
     root.title("Покуп0чка")
     root.geometry("300x250")
 
-    label = Label(text=name + " это вы?")
+    con = sql.connect('../web_app/db.first')
+    c = con.cursor()
+    c.execute("SELECT Name FROM reg_log_users WHERE Email = ?", (mail, ))
+    name = c.fetchone()
+    # print(ans)
+    c.execute("SELECT Surname FROM reg_log_users WHERE Email = ?", (mail, ))
+    surname = c.fetchone()
+    # surname = ans[1]
+    c.execute("SELECT id FROM reg_log_users WHERE Email = ?", (mail, ))
+    id = c.fetchone()
+    print(name)
+    print(surname)
+    print(id)
+    con.commit()
+    con.close()
+
+    label = Label(text=name[0] + ' ' + surname[0] + " это вы?")
     label.pack()
 
     btnYes = Button(text="ДаДа")
     btnYes.pack()
-    btnYes.bind('<Button-1>', lambda event: failed(root))
+    btnYes.bind('<Button-1>', lambda event: spisali_rubiki(root, id))
     btnNo = Button(text="НетНет")
     btnNo.pack()
     btnNo.bind('<Button-1>', lambda event: failed(root))
@@ -55,6 +79,20 @@ def accept(name):
 
 
 def recognize(rot, video_capture):
+    client_id = "9ccafedf10664913b01666dbceb950b1"
+    secret_id = "7b6ef408e8f445ad9aa387858e1bce1d"
+    token = "y0_AgAAAABpZNC7AAlO3QAAAADe_r4Fm6rN4uA7SwqmSG4P_ptrMQGnls4"
+
+    disk = yadisk.YaDisk(client_id, secret_id, token)
+    path = 'face_enc'
+
+    if disk.exists('face_enc'):
+        disk.download('/face_enc', path)
+
+    cascPathface = os.path.dirname(
+        cv2.__file__) + "/data/haarcascade_frontalface_alt2.xml"
+    faceCascade = cv2.CascadeClassifier(cascPathface)
+    data = pickle.loads(open('face_enc', "rb").read())
     while True:
         ret, frame = video_capture.read()
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -98,14 +136,6 @@ def recognize(rot, video_capture):
             video_capture.release()
             cv2.destroyAllWindows()
             break
-
-
-
-cascPathface = os.path.dirname(
-    cv2.__file__) + "/data/haarcascade_frontalface_alt2.xml"
-faceCascade = cv2.CascadeClassifier(cascPathface)
-data = pickle.loads(open('face_enc', "rb").read())
-
 
 
 win1 = end()
