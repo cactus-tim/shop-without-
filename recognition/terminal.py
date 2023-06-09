@@ -34,10 +34,9 @@ def failed(rot):
 def spisali_rubiki(rot, id):
     rot.destroy()
     minus_dengi = True
-    id = 44
     con = sql.connect('../web_app/db.first')
     c = con.cursor()
-    c.execute("DELETE FROM reg_log_cart WHERE buyer_id = ?", (id, ))
+    c.execute("DELETE FROM reg_log_cart WHERE buyer_id = ?", id)
     con.commit()
     con.close()
     os.remove('face_enc')
