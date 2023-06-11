@@ -41,12 +41,39 @@ def spisali_rubiki(rot, id):
     result = c.fetchone()
     if result is None:
         print("пользователь ничего не покупал")
+        con.commit()
+        con.close()
+        os.remove('face_enc')
+        end()
     else:
+        query1 = "SELECT Balance FROM reg_log_users WHERE id = ?"
+        c.execute(query1, id)
+        balance = c.fetchone()
+        query2 = "SELECT total FROM reg_log_cart WHERE buyer_id = ?"
+        c.execute(query2, id)
+        summa = c.fetchone()
+        new_balance = balance[0] - summa[0]
+        print(balance[0])
+        print(summa[0])
+        print(new_balance)
+        if new_balance < 0:
+            print('недостаточно средств')
+            label = Label(text="На балансе недостаточно средств")
+            label.pack()
+            con.commit()
+            con.close()
+            os.remove('face_enc')
+            end()
+        query3 = "UPDATE reg_log_users SET Balance = ? WHERE id = ?"
+
+        c.execute(query3, (new_balance, id[0], ))
+
         c.execute("DELETE FROM reg_log_cart WHERE buyer_id = ?", id)
-    con.commit()
-    con.close()
-    os.remove('face_enc')
-    end()
+        con.commit()
+        con.close()
+        os.remove('face_enc')
+        end()
+
 
 
 def accept(mail):
