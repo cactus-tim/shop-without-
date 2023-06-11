@@ -36,7 +36,13 @@ def spisali_rubiki(rot, id):
     minus_dengi = True
     con = sql.connect('../web_app/db.first')
     c = con.cursor()
-    c.execute("DELETE FROM reg_log_cart WHERE buyer_id = ?", id)
+    query = "SELECT * FROM reg_log_cart WHERE buyer_id = ?"
+    c.execute(query, id)
+    result = c.fetchone()
+    if result is None:
+        print("пользователь ничего не покупал")
+    else:
+        c.execute("DELETE FROM reg_log_cart WHERE buyer_id = ?", id)
     con.commit()
     con.close()
     os.remove('face_enc')
