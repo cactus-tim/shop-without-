@@ -30,6 +30,12 @@ def failed(rot):
     rot.destroy()
     end()
 
+def exc(rot, con):
+    rot.destroy()
+    con.commit()
+    con.close()
+    os.remove('face_enc')
+    end()
 
 def spisali_rubiki(rot, id):
     rot.destroy()
@@ -58,21 +64,25 @@ def spisali_rubiki(rot, id):
         print(new_balance)
         if new_balance < 0:
             print('недостаточно средств')
+            root = Tk()
+            root.title("Покуп0чка")
+            root.geometry("300x250")
             label = Label(text="На балансе недостаточно средств")
             label.pack()
+            btn = Button(text="Окей")
+            btn.pack()
+            btn.bind('<Button-1>', lambda event: exc(root, con))
+            root.mainloop()
+        else:
+            query3 = "UPDATE reg_log_users SET Balance = ? WHERE id = ?"
+
+            c.execute(query3, (new_balance, id[0], ))
+
+            c.execute("DELETE FROM reg_log_cart WHERE buyer_id = ?", id)
             con.commit()
             con.close()
             os.remove('face_enc')
             end()
-        query3 = "UPDATE reg_log_users SET Balance = ? WHERE id = ?"
-
-        c.execute(query3, (new_balance, id[0], ))
-
-        c.execute("DELETE FROM reg_log_cart WHERE buyer_id = ?", id)
-        con.commit()
-        con.close()
-        os.remove('face_enc')
-        end()
 
 
 
@@ -120,9 +130,8 @@ def recognize(rot, video_capture):
 
     if disk.exists('face_enc'):
         disk.download('/face_enc', path)
-
     cascPathface = os.path.dirname(
-        cv2.__file__) + "/data/haarcascade_frontalface_alt2.xml"
+        cv2.file) + "/data/haarcascade_frontalface_alt2.xml"
     faceCascade = cv2.CascadeClassifier(cascPathface)
     data = pickle.loads(open('face_enc', "rb").read())
     while True:
