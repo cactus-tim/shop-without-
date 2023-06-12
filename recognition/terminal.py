@@ -77,8 +77,8 @@ def spisali_rubiki(rot, id):
             query3 = "UPDATE reg_log_users SET Balance = ? WHERE id = ?"
 
             c.execute(query3, (new_balance, id[0], ))
-
-            c.execute("DELETE FROM reg_log_cart WHERE buyer_id = ?", id)
+            query3 = "UPDATE reg_log_cart SET status = ? WHERE id = ?"
+            c.execute(query3, ("False", id[0], ))
             con.commit()
             con.close()
             os.remove('face_enc')
@@ -131,7 +131,7 @@ def recognize(rot, video_capture):
     if disk.exists('face_enc'):
         disk.download('/face_enc', path)
     cascPathface = os.path.dirname(
-        cv2.file) + "/data/haarcascade_frontalface_alt2.xml"
+        cv2.__file__) + "/data/haarcascade_frontalface_alt2.xml"
     faceCascade = cv2.CascadeClassifier(cascPathface)
     data = pickle.loads(open('face_enc', "rb").read())
     while True:
