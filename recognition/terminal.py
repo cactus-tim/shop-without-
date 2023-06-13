@@ -56,8 +56,8 @@ def spisali_rubiki(rot, id):
         query1 = "SELECT Balance FROM reg_log_users WHERE id = ?"
         c.execute(query1, id)
         balance = c.fetchone()
-        query2 = "SELECT total FROM reg_log_cart WHERE buyer_id = ?"
-        c.execute(query2, id)
+        query2 = "SELECT total FROM reg_log_cart WHERE buyer_id = ? AND status = ?"
+        c.execute(query2, (id[0], 1, ))
         summa = c.fetchone()
         new_balance = balance[0] - summa[0]
         print(balance[0])
@@ -78,8 +78,9 @@ def spisali_rubiki(rot, id):
             query3 = "UPDATE reg_log_users SET Balance = ? WHERE id = ?"
 
             c.execute(query3, (new_balance, id[0],))
-            query3 = "UPDATE reg_log_cart SET status = ? WHERE id = ?"
-            c.execute(query3, ("False", id[0],))
+            query3 = "UPDATE reg_log_cart SET status = ? WHERE buyer_id = ? AND status = ?"
+            status = 0
+            c.execute(query3, (status, id[0], 1, ))
             con.commit()
             con.close()
             os.remove('face_enc')
