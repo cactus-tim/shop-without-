@@ -31,7 +31,7 @@ class Cart(models.Model):
     buyer_id = models.IntegerField('id покупателя')
     cart = models.JSONField('Корзина')
     total = models.IntegerField('Total')
-    status = models.BooleanField('Статус')
+    status = models.IntegerField('Статус')
 
     def __str__(self):
         return str(self.id)

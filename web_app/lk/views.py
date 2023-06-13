@@ -103,8 +103,8 @@ def camera_work(request):
 
 def update_cart(buyer_id, good):
     good_id = str(good)
-    if Cart.objects.filter(buyer_id=buyer_id, status=True).exists():
-        cart = Cart.objects.filter(buyer_id=buyer_id, status=True).first()
+    if Cart.objects.filter(buyer_id=buyer_id, status=1).exists():
+        cart = Cart.objects.filter(buyer_id=buyer_id, status=1).first()
         price = Good.objects.get(id=good).price
         if good_id in cart.cart:
             cart.cart[good_id] += 1
@@ -116,7 +116,7 @@ def update_cart(buyer_id, good):
     else:
         cart_data = {good_id: 1}
         price = Good.objects.get(id=good).price
-        cart = Cart(buyer_id=buyer_id, cart=cart_data, total=price, status=True)
+        cart = Cart(buyer_id=buyer_id, cart=cart_data, total=price, status=1)
         user = Users.objects.get(id=buyer_id)
         cart.save()
         print(cart.cart)
@@ -126,8 +126,8 @@ def update_cart(buyer_id, good):
 def lk(request):
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id)
-        if Cart.objects.filter(buyer_id=request.user.id, status=True).exists():
-            cart = Cart.objects.filter(buyer_id=request.user.id, status=True).first()
+        if Cart.objects.filter(buyer_id=request.user.id, status=1).exists():
+            cart = Cart.objects.filter(buyer_id=request.user.id, status=1).first()
             products = []
             for key, value in cart.cart.items():
                 products.append(Product(Good.objects.get(id=int(key)).title,
@@ -218,7 +218,7 @@ def profile(request):
 def history(request):
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id)
-        carts = Cart.objects.filter(buyer_id=request.user.id, status=False)
+        carts = Cart.objects.filter(buyer_id=request.user.id, status=0)
         historycarts = []
         for cart in carts:
             names = []
@@ -244,7 +244,7 @@ def update_product_count(request):
     action = request.POST.get('action')
 
     if product_id and action:
-        cart = Cart.objects.filter(buyer_id=request.user.id, status=True).first()
+        cart = Cart.objects.filter(buyer_id=request.user.id, status=1).first()
 
         if action == 'minus':
             if cart.cart[product_id] > 0:
