@@ -30,7 +30,7 @@
                         <a class="nav-link rounded-pill py-3 px-5 border" href="{% url 'katalog' %}">Каталог</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link rounded-pill py-3 px-5 border" href="#">Акции</a>
+                        <a class="nav-link rounded-pill py-3 px-5 border" href="{% url 'akcii' %}">Акции</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link rounded-pill py-3 px-5 border" href="{% url 'balance' %}">Пополнить баланс</a>
@@ -59,7 +59,7 @@
     <div class="container mt-1">
         <ul class="list-inline">
             <li class="list-inline-item"><a href="{% url 'politics' %}">Политика конфиденциальности</a></li>
-            <li class="list-inline-item"><a href="#">Правила работы с сайтом</a></li>
+            <li class="list-inline-item"><a href="{% url 'how_to_use' %}">Правила работы с сайтом</a></li>
         </ul>
     </div>
 </footer>

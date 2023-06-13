@@ -4,41 +4,60 @@
     <title>Каталог</title>
 {% endblock %}
 
+<style>
+ a img
+ {
+     width:100px;
+     height:100px;
+     margin:10px;
+     position: relative;
+        left: -50px;
+        top: -50px;
+     visibility:hidden;
+ }
+ a:hover >img
+ {
+     visibility:visible;
+ }
+</style>
 {% block body %}
+{% load static %}
+<div class="card-wrapper1">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3 bg-danger text-center">
-                <h2>Мясные блюда</h2>
+            <div class="col-md-6 col-lg-3 text-center">
+                <h2 class="bg-danger">Мясные блюда</h2>
                 <ul>
-                    <li>Стейк из говядины</li>
-                    <li>Шашлык из свинины</li>
-                    <li>Куриные крылья BBQ</li>
+                    <li><a href="/images/goviadina.jpg"><img src="{% static 'images/steak.jpg' %}" alt="Стейк из говядины"></a></li>
+                    <li><a href="#"><img src="{% static 'images/shashlik.jpg' %}" alt="Шашлык из свинины"></a></li>
+                    <li><a href="#"><img src="{% static 'images/wings.jpg' %}" alt="Куриные крылья BBQ"></a></li>
                 </ul>
             </div>
-            <div class="col-md-3 bg-secondary text-center">
-                <h2>Вегетарианское</h2>
+            <div class="col-md-6 col-lg-3 text-center">
+                <h2 class="bg-secondary">Напитки</h2>
                 <ul>
-                    <li>Салат Цезарь с темпе</li>
-                    <li>Картофель фри</li>
-                    <li>Овощной рагу</li>
+                    <li><a href="#"><img src="{% static 'images/coke.jpg' %}" alt="Кола"></a></li>
+                    <li><a href="#"><img src="{% static 'images/lemonade.jpg' %}" alt="Лимонад"></a></li>
+                    <li><a href="#"><img src="{% static 'images/tea.jpg' %}" alt="Чай"></a></li>
                 </ul>
             </div>
-            <div class="col-md-3 bg-primary text-center">
-                <h2>Напитки</h2>
+            <div class="col-md-6 col-lg-3 text-center">
+                <h2 class="bg-light">Без белого сахара</h2>
                 <ul>
-                    <li>Кола</li>
-                    <li>Лимонад</li>
-                    <li>Чай</li>
+                    <li><a href="#"><img src="{% static 'images/fruit-salad.jpg' %}" alt="Фруктовый салат"></a></li>
+                    <li><a href="#"><img src="{% static 'images/oatmeal.jpg' %}" alt="Овсянка на молоке"></a></li>
+                    <li><a href="#"><img src="{% static 'images/yogurt.jpg' %}" alt="Фруктовый йогурт"></a></li>
                 </ul>
             </div>
-            <div class="col-md-3 bg-light text-center">
-                <h2>Без белого сахара</h2>
+            <div class="col-md-6 col-lg-3 text-center">
+                <h2 class="bg-primary">Вегетарианское</h2>
                 <ul>
-                    <li>Фруктовый салат</li>
-                    <li>Овсянка на молоке</li>
-                    <li>Фруктовый йогурт</li>
+                    <li><a href="#"><img src="{% static 'images/cesar.jpg' %}" alt="Салат Цезарь с темпе"></a></li>
+                    <li><a href="#"><img src="{% static 'images/fries.jpg' %}" alt="Картофель фри"></a></li>
+                    <li><a href="#"><img src="{% static 'images/stew.jpg' %}" alt="Овощной рагу"></a></li>
                 </ul>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

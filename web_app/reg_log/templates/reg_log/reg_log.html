@@ -24,6 +24,9 @@
 </main>
 {% else %}
 <h1>Добро пожаловать в магазин без продавцов</h1>
-<a class="btn btn-primary btn-block btn-lg rounded-2 centered" href="{% url 'lk' %}">Скорее за покупками!</a>
+<div class="button-wrapper">
+  <a class="btn btn-primary btn-block btn-lg rounded-2 centered" href="{% url 'lk' %}">Скорее за покупками!</a>
+</div>
+
 {% endif %}
 {% endblock %}

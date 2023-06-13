@@ -42,9 +42,32 @@ footer {
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: #f6efef;
+  background-color: #f2f2f2;
   color: #010a0a;
-  text-align: center;
   padding: 10px;
+  position: relative;
+
+}
+.card-wrapper{
+    margin-bottom: 140px;
+}
+.card-wrapper5{
+    margin-bottom: 450px;
+}
+.minus-btn, .plus-btn {
+  font-size: 20px;
+  padding: 0 20px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.count-input {
+  width: 40px;
+  text-align: center;
+  border: none;
+  border-bottom: 1px solid #333;
+  font-size: 18px;
+  font-weight: bold;
 }
 

@@ -156,3 +156,29 @@ footer {
 header ul li a {
 color: black;
 }
+.button-wrapper{
+    margin-bottom: 310px;
+}
+.card-wrapper1{
+    margin-bottom: 400px;
+}
+.card-wrapper2{
+    margin-bottom: 270px;
+}
+.card-wrapper3{
+    margin-bottom: 220px;
+}
+.card-wrapper4{
+    margin-bottom: 400px;
+}
+.profile-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.profile-data {
+  font-weight: bold;
+  font-size: 20px;
+  color: #333;
+}

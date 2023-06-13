@@ -17,7 +17,7 @@ import pickle
 import cv2
 import os
 import shutil
-
+from django.templatetags.static import static
 from django.db.models import F
 
 
@@ -244,3 +244,14 @@ def profile(request):
 
         return render(request, 'reg_log/profile.html', data)
     return render(request, 'reg_log/profile.html')
+
+def how_to_use(request):
+    if request.user.is_authenticated:
+        user = Users.objects.get(id=request.user.id)
+        return render(request, 'reg_log/how_to_use.html', {'balance': user.Balance})
+    return render(request, 'reg_log/how_to_use.html')
+def akcii(request):
+    if request.user.is_authenticated:
+        user = Users.objects.get(id=request.user.id)
+        return render(request, 'reg_log/akcii.html', {'balance': user.Balance})
+    return render(request,'reg_log/akcii.html')

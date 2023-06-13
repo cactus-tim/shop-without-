@@ -8,22 +8,24 @@
 {% csrf_token %}
 <div class="col">
     <div class="row">
-        <img src="{{ user.Face.url }}" alt="Ваша фотография">
+        <img src="{{ user.Face.url }}" alt="Ваша фотография" class="profile-img">
     </div>
     <div class="row">
-        <div class="name">Имя: {{ user.Name }}</div>
+        <div class="name">Имя: <span class="profile-data">{{ user.Name }}</span></div>
     </div>
     <div class="row">
-        <div class="surname">Фамилия: {{ user.Surname }}</div>
+        <div class="surname">Фамилия: <span class="profile-data">{{ user.Surname }}</span></div>
     </div>
     <div class="row">
-        <div class="email">Email: {{ user.Email }}</div>
+        <div class="email">Email: <span class="profile-data">{{ user.Email }}</span></div>
     </div>
     <div class="row">
-        <div class="phone">Возраст: {{ user.Age }}</div>
+        <div class="phone">Возраст: <span class="profile-data">{{ user.Age }}</span></div>
     </div>
     <div class="row">
-        <div class="address">Баланс: {{ user.Balance }}</div>
+        <div class="address">Баланс: <span class="profile-data">{{ user.Balance }}</span></div>
     </div>
 </div>
 {% endblock %}
+
+
