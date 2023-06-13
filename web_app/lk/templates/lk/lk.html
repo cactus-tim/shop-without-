@@ -29,9 +29,29 @@
                     <div class="card_right">
                         <div class="name">Название: {{ product.name }}</div>
                         <div class="count">
-                            <button class="minus-btn" type="button" name="button">-</button>
-                            <input type="text" name="count" value="{{ product.count }}" class="count-input">
-                            <button class="plus-btn" type="button" name="button">+</button>
+                            <button class="minus-btn" type="button" data-product-name="{{ product.name }}">-</button>
+                            <input type="text" id="count-{{ product.name }}" name="count" value="{{ product.count }}" class="count-input">
+                            <button class="plus-btn" type="button" data-product-name="{{ product.name }}">+</button>
+
+                            <script>
+                                $(document).ready(function() {
+                                    $('.minus-btn, .plus-btn').click(function() {
+                                        var product_name = $(this).data('product-name');
+                                        var action = $(this).hasClass('minus-btn') ? 'minus' : 'plus';
+                                        $.post(
+                                            "{% url 'update_product_count' %}",
+                                            {
+                                                product_name: product_name,
+                                                action: action,
+                                                csrfmiddlewaretoken: '{{ csrf_token }}'
+                                            }
+                                            ).done(function(response) {
+                                                location.reload();
+                                            });
+                                    });
+                                });
+                            </script>
+
                         </div>
                         <div class="price">Цена: {{ product.cost }}</div>
                         <div class="cost">Итого: {{ product.amount }}</div>

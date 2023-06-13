@@ -11,5 +11,6 @@ urlpatterns = [
     path('politics/', views.politics, name='politics'),
     path('balance/', views.balance, name='balance'),
     path('profile/', views.profile, name='profile'),
-    path('history/', views.history, name='history')
+    path('history/', views.history, name='history'),
+    path('update_product_count/', views.update_product_count, name='update_product_count'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

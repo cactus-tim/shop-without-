@@ -1,12 +1,11 @@
 import face_recognition
-import imutils
 import pickle
-import time
 from tkinter import *
 import cv2
 import os
 import sqlite3 as sql
 import yadisk
+
 
 def end():
     print("Streaming started")
@@ -30,12 +29,14 @@ def failed(rot):
     rot.destroy()
     end()
 
+
 def exc(rot, con):
     rot.destroy()
     con.commit()
     con.close()
     os.remove('face_enc')
     end()
+
 
 def spisali_rubiki(rot, id):
     rot.destroy()
@@ -76,14 +77,13 @@ def spisali_rubiki(rot, id):
         else:
             query3 = "UPDATE reg_log_users SET Balance = ? WHERE id = ?"
 
-            c.execute(query3, (new_balance, id[0], ))
+            c.execute(query3, (new_balance, id[0],))
             query3 = "UPDATE reg_log_cart SET status = ? WHERE id = ?"
-            c.execute(query3, ("False", id[0], ))
+            c.execute(query3, ("False", id[0],))
             con.commit()
             con.close()
             os.remove('face_enc')
             end()
-
 
 
 def accept(mail):
@@ -93,13 +93,13 @@ def accept(mail):
 
     con = sql.connect('../web_app/db.first')
     c = con.cursor()
-    c.execute("SELECT Name FROM reg_log_users WHERE Email = ?", (mail, ))
+    c.execute("SELECT Name FROM reg_log_users WHERE Email = ?", (mail,))
     name = c.fetchone()
     # print(ans)
-    c.execute("SELECT Surname FROM reg_log_users WHERE Email = ?", (mail, ))
+    c.execute("SELECT Surname FROM reg_log_users WHERE Email = ?", (mail,))
     surname = c.fetchone()
     # surname = ans[1]
-    c.execute("SELECT id FROM reg_log_users WHERE Email = ?", (mail, ))
+    c.execute("SELECT id FROM reg_log_users WHERE Email = ?", (mail,))
     id = c.fetchone()
     print(name)
     print(surname)

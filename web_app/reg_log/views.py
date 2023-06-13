@@ -1,13 +1,7 @@
-from django.contrib.auth.hashers import make_password
-from django.core.mail import send_mail
-from django.db.backends import sqlite3
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-import sqlite3 as sql
 from .forms import UserRegForm, UserLogForm
 import yadisk
 from .models import Users
@@ -17,8 +11,6 @@ import pickle
 import cv2
 import os
 import shutil
-from django.templatetags.static import static
-from django.db.models import F
 
 
 def enc():
@@ -103,8 +95,6 @@ def reg_log(request):
 
 
 def valid(user, myuser):
-    # if user.id != myuser.id:
-    #     return False
     pass
 
 
@@ -245,13 +235,16 @@ def profile(request):
         return render(request, 'reg_log/profile.html', data)
     return render(request, 'reg_log/profile.html')
 
+
 def how_to_use(request):
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id)
         return render(request, 'reg_log/how_to_use.html', {'balance': user.Balance})
     return render(request, 'reg_log/how_to_use.html')
+
+
 def akcii(request):
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id)
         return render(request, 'reg_log/akcii.html', {'balance': user.Balance})
-    return render(request,'reg_log/akcii.html')
+    return render(request, 'reg_log/akcii.html')

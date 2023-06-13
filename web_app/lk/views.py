@@ -7,7 +7,8 @@ import yadisk
 from pyzbar.pyzbar import decode
 import cv2
 import pandas as np
-import os
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 class Product:
@@ -62,10 +63,6 @@ def photo_to_cloud(path, email):
                 return 'Error'
     else:
         return 'Error'
-
-
-def from_bd(BarCode):
-    pass
 
 
 def camera_work(request):
@@ -208,17 +205,6 @@ def profile(request):
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id)
 
-        # path = user.FaceLink
-        # user.FaceLink = photo_to_cloud(path, user.Email)
-        # if user.FaceLink == 'Error':
-        #     user.delete()
-        #     request.user.delete()
-        #     # надо заново регаться
-        #     # TODO: сделать нормальную обработку ошибок
-        #     return redirect('home')
-        # else:
-        #     user.save()
-
         data = {
             'balance': user.Balance,
             'user': user
@@ -249,3 +235,29 @@ def history(request):
 
         return render(request, 'lk/history.html', data)
     return render(request, 'lk/history.html')
+
+
+@csrf_exempt
+def update_product_count(request):
+    name = request.POST.get('product_name')
+    product_id = Good.objects.get(title=name).id
+    action = request.POST.get('action')
+
+    if product_id and action:
+        cart = Cart.objects.filter(buyer_id=request.user.id, status=True).first()
+
+        if action == 'minus':
+            if cart.cart[product_id] > 0:
+                cart.cart[product_id] -= 1
+                cart.save()
+            else:
+                cart.cart.pop(product_id)
+                cart.save()
+
+        if action == 'plus':
+            cart.cart[product_id] += 1
+            cart.save()
+
+        return redirect('lk')
+
+    return redirect('lk')
