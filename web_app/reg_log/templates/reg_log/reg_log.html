@@ -1,0 +1,32 @@
+{% extends 'reg_log/layout.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block body %}
+{% if not user.is_authenticated %}
+<main class="container">
+    <h1>Пройдите регистрацию или войдите, если у вас уже есть аккаунт</h1>
+    <h1>Выбери действие</h1>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col">
+            <a class="btn btn-primary btn-block btn-lg rounded-2 centered" href="{% url 'reg' %}">Регистрация</a>
+        </div>
+        <div class="col">
+            <a class="btn btn-primary btn-block btn-lg rounded-2 centered" href="{% url 'log' %}">Вход</a>
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+    </div>
+</main>
+{% else %}
+<h1>Добро пожаловать в магазин без продавцов</h1>
+<div class="button-wrapper">
+  <a class="btn btn-primary btn-block btn-lg rounded-2 centered" href="{% url 'lk' %}">Скорее за покупками!</a>
+</div>
+
+{% endif %}
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'reg_log/layout.html' %}
+
+{% block title %}
+    <title>Каталог</title>
+{% endblock %}
+
+<style>
+ a img
+ {
+     width:100px;
+     height:100px;
+     margin:10px;
+     position: relative;
+        left: -50px;
+        top: -50px;
+     visibility:hidden;
+ }
+ a:hover >img
+ {
+     visibility:visible;
+ }
+</style>
+{% block body %}
+{% load static %}
+<div class="card-wrapper1">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-lg-3 text-center">
+                <h2 class="bg-danger">Мясные блюда</h2>
+                <ul>
+                    <li><a>Стейк из говядины</a></li>
+                    <li><a>Шашлык из свинины</a></li>
+                    <li><a>Куриные крылья BBQ</a></li>
+                </ul>
+            </div>
+            <div class="col-md-6 col-lg-3 text-center">
+                <h2 class="bg-secondary">Напитки</h2>
+                <ul>
+                    <li><a>Кола</a></li>
+                    <li><a>Лимонад</a></li>
+                    <li><a>Чай</a></li>
+                </ul>
+            </div>
+            <div class="col-md-6 col-lg-3 text-center">
+                <h2 class="bg-light">Без белого сахара</h2>
+                <ul>
+                    <li><a>Фруктовый салат</a></li>
+                    <li><a>Овсянка на молоке</a></li>
+                    <li><a>Фруктовый йогурт</a></li>
+                </ul>
+            </div>
+            <div class="col-md-6 col-lg-3 text-center">
+                <h2 class="bg-primary">Вегетарианское</h2>
+                <ul>
+                    <li><a>Салат Цезарь с темпе</a></li>
+                    <li><a>Картофель фри</a></li>
+                    <li><a>Овощной рагу</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'lk/layout.html' %}
+
+{% block title %}
+    <title>Профиль</title>
+{% endblock %}
+
+{% block body %}
+{% csrf_token %}
+<div class="col">
+    <div class="row">
+        <img src="{{ user.Face.url }}" alt="Ваша фотография" class="profile-img">
+    </div>
+    <div class="row">
+        <div class="name">Имя: <span class="profile-data">{{ user.Name }}</span></div>
+    </div>
+    <div class="row">
+        <div class="surname">Фамилия: <span class="profile-data">{{ user.Surname }}</span></div>
+    </div>
+    <div class="row">
+        <div class="email">Email: <span class="profile-data">{{ user.Email }}</span></div>
+    </div>
+    <div class="row">
+        <div class="phone">Возраст: <span class="profile-data">{{ user.Age }}</span></div>
+    </div>
+    <div class="row">
+        <div class="address">Баланс: <span class="profile-data">{{ user.Balance }}</span></div>
+    </div>
+</div>
+{% endblock %}
+
+

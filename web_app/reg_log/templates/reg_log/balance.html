@@ -1,0 +1,30 @@
+{% extends 'reg_log/layout.html' %}
+{% block title %}
+    <title>Пополнение баланса</title>
+{% endblock %}
+{% block body %}
+<div class="card-wrapper3">
+<form method="post" action="{% url 'balance' %}">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="card-number">Номер карты</label>
+    <input type="text" class="form-control" id="card-number" placeholder="Введите номер карты">
+  </div>
+  <div class="form-group">
+    <label for="expiry-date">Срок годности</label>
+    <input type="text" class="form-control" id="expiry-date" placeholder="MM/YY">
+  </div>
+  <div class="form-group">
+    <label for="cvv">CVV</label>
+    <input type="text" class="form-control" id="cvv" placeholder="Введите CVV">
+  </div>
+  <div class="form-group">
+    <label for="amount">Введите сумму пополнения</label>
+    <div id="custom-amount">
+      <input type="number" class="form-control" id="custom-amount-input" name="custom-amount-input" placeholder="Введите сумму">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Пополнить баланс</button>
+</form>
+</div>
+{% endblock %}

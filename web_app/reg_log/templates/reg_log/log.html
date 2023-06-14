@@ -1,0 +1,26 @@
+{% extends 'reg_log/layout.html' %}
+
+{% block title %}
+    <title>Логин</title>
+{% endblock %}
+
+{% block body %}
+<main class="container my-5">
+    <h1 class="mb-4">Вход</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.Email }}<br>
+        {{ form.Pass1 }}<br>
+        <span>{{ error }}</span>
+        <button type="submit" class="btn btn-primary">Войти</button>
+    </form>
+</main>
+{% endblock %}
+
+
+<!--        <ul>-->
+<!--            {% csrf_token %}-->
+<!--                {% for key, value in cart.items %}-->
+<!--                    <li>ID товара: {{ key }}. Количество: {{ value }}</li>-->
+<!--                {% endfor %}-->
+<!--        </ul>-->

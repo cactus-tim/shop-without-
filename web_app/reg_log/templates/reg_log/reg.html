@@ -1,0 +1,27 @@
+{% extends 'reg_log/layout.html' %}
+
+{% block title %}
+    <title>Регистрация</title>
+{% endblock %}
+
+{% block body %}
+<main class="container my-5">
+    <h1 class="mb-4">Регистрация</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.Name }}<br>
+        {{ form.Surname }}<br>
+        {{ form.Email }}<br>
+        {{ form.Age }}<br>
+        {{ form.Pass1 }}<br>
+        {{ form.Pass2 }}<br>
+        <label>Добавьте вашу фотографию</label>
+        {{ form.Face }}<br>
+        <span>{{ error }}</span>
+        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+    </form>
+    <p class="mt-3">Уже есть аккаунт? <a href="{% url 'log' %}">Войти</a></p>
+    <p class="mt-3">Перейти на страницу авторизации: <a href="{% url 'reg_log' %}">Авторизация</a></p>
+
+</main>
+{% endblock %}

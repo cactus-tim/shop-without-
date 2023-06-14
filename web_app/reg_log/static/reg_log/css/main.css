@@ -1,0 +1,184 @@
+body {
+  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  margin-top: 50px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+form label {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+form button[type="submit"] {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 5px;
+  padding: 10px 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+form button[type="submit"]:hover,
+form button[type="submit"]:focus,
+form button[type="submit"]:active {
+  background-color: #0056b3;
+  border-color: #0056b3;
+  color: #fff;
+  outline: none;
+  box-shadow: none;
+  transform: scale(1.02);
+}
+
+form select {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+footer.body {
+   margin: 0; /* убираем отступы вокруг страницы */
+   height: 100vh; /* задаем высоту страницы, чтобы разделить на 4 части */
+   display: flex; /* используем flex-контейнер для размещения четырех карточек */
+   flex-wrap: wrap;
+   justify-content: space-around; /* распределяем карточки равномерно по горизонтали */
+   align-items: center;
+  }
+
+  footer.card {
+   width: 400px;
+   height: 600px;
+   margin: 20px;
+   padding: 20px;
+   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+   text-align: center;
+   position:relative;
+   border: 2px solid #333; /* добавляем рамку вокруг карточки */
+   box-sizing: border-box;
+  }
+
+  footer.card img {
+   width: 200px;
+   height: 200px;
+   object-fit: cover;
+   border-radius: 50%;
+   margin-bottom: 15px;
+   object-position:center;
+   top:0;
+   left:50%;
+   transform:translate(-50%, -50%);
+   position:absolute;
+  }
+
+  footer.card h3 {
+   font-size: 24px;
+   margin-bottom: 10px;
+  }
+
+  footer.card p {
+   font-size: 18px;
+   line-height: 1.5;
+   margin-bottom: 15px;
+  }.
+
+   .container {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.centered {
+  display: block;
+  width: 350px; /* задаем фиксированную ширину */
+  margin: 0 auto; /* выравниваем по центру */
+}
+
+.btn {
+  font-size: 24px;
+  padding: 20px 40px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.btn:hover {
+  background-color: #0069d9;
+}
+
+.btn-primary {
+  background-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+}
+h1{
+    text-align: center;
+    margin-top: 80px;
+    margin-bottom: 40px;
+}
+footer {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f6efef;
+  color: #010a0a;
+  text-align: center;
+  padding: 10px;
+}
+header ul li a {
+color: black;
+}
+.button-wrapper{
+    margin-bottom: 310px;
+}
+.card-wrapper1{
+    margin-bottom: 400px;
+}
+.card-wrapper2{
+    margin-bottom: 270px;
+}
+.card-wrapper3{
+    margin-bottom: 220px;
+}
+.card-wrapper4{
+    margin-bottom: 400px;
+}
+.profile-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.profile-data {
+  font-weight: bold;
+  font-size: 20px;
+  color: #333;
+}
